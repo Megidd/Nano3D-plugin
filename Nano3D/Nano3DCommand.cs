@@ -56,7 +56,11 @@ namespace Nano3D
                 pt1 = getPointAction.Point();
             }
 
-            doc.Objects.AddLine(pt0, pt1);
+            Rhino.Geometry.Line line1 = new Rhino.Geometry.Line(pt0, pt1);
+
+            //doc.Objects.AddLine(pt0, pt1);
+            doc.Objects.AddLine(line1);
+
             doc.Views.Redraw();
             RhinoApp.WriteLine("The {0} command added one line to the document.", EnglishName);
 
