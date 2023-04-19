@@ -21,7 +21,7 @@ namespace Nano3D
         public static Nano3DCommand Instance { get; private set; }
 
         ///<returns>The command name as it appears on the Rhino command line.</returns>
-        public override string EnglishName => "Nano3DCommand";
+        public override string EnglishName => "Slicing";
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
