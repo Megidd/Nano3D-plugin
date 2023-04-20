@@ -58,7 +58,7 @@ namespace Nano3D
 
             Rhino.Geometry.Line line1 = new Rhino.Geometry.Line(pt0, pt1);
 
-            RhinoApp.WriteLine("The distance between the two points is {0}.", line1.Length);
+            RhinoApp.WriteLine("The distance between the two points is {0} {1}.", line1.Length, doc.ModelUnitSystem.ToString().ToLower());
 
             //doc.Objects.AddLine(pt0, pt1);
             doc.Objects.AddLine(line1);
