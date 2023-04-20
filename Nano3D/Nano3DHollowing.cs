@@ -18,8 +18,9 @@ namespace Nano3D
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
-            // TODO: complete command.
             RhinoApp.WriteLine("The {0} command received the document.", EnglishName);
+
+            // TODO: complete command.
             return Result.Success;
         }
     }
