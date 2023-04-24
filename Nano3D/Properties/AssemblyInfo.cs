@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 // Plug-in Description Attributes - all of these are optional.
 // These will show in Rhino's option dialog, in the tab Plug-ins.
-[assembly: PlugInDescription(DescriptionType.Address, "10164 Yonge St. Unit 3 Richmond Hill ON L4C 1T6 Canada")]
+[assembly: PlugInDescription(DescriptionType.Address, "10164 Yonge St. Unit 3 Richmond Hill ON")]
 [assembly: PlugInDescription(DescriptionType.Country, "Canada")]
 [assembly: PlugInDescription(DescriptionType.Email, "contact@nanodlp.com")]
 [assembly: PlugInDescription(DescriptionType.Phone, "+1 289 809 4399")]
