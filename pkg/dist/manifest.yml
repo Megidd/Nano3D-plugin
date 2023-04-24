@@ -3,5 +3,5 @@ name: Nano3D
 version: 1.0
 authors:
 - Nano3D
-description: Description of Nano3D
+description: Nano3D plugin tries to be a smart and full solution for the 3D print users. The following tools would be offered. Easy STL creation. STL repair. Boolean operations. Support structures. Export of 3D print file...
 url: https://nano3dtech.com/
