@@ -23,6 +23,8 @@ cd dist/
 
 ## build
 
+Build the package file, a file like `nano3d-1.0.0-rh7_13-any.yak` would be generated.
+
 ```bash
 cd dist/
 "C:\Program Files\Rhino 7\System\Yak.exe" build
