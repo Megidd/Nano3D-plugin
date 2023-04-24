@@ -1,6 +1,6 @@
 # How to build pkg
 
-## Built
+## Binary
 
 Copy built output of Visual Studio.
 
