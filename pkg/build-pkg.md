@@ -30,3 +30,41 @@ cd dist/
 "C:\Program Files\Rhino 7\System\Yak.exe" build
 ```
 
+# How to publish pkg
+
+## Authentication
+
+Authorize the Yak CLI tool.
+
+```bash
+"C:\Program Files\Rhino 7\System\Yak.exe" login
+```
+
+## Push
+
+Publish pkg.
+
+```bash
+"C:\Program Files\Rhino 7\System\Yak.exe" push marmoset-1.0.0-rh6_18-any.yak
+```
+
+If you just want to test without actually publishing:
+
+```bash
+"C:\Program Files\Rhino 7\System\Yak.exe" push --source https://test.yak.rhino3d.com marmoset-1.0.0-rh6_18-any.yak
+```
+
+## Check
+
+Check if pkg is pushed fine.
+
+```bash
+"C:\Program Files\Rhino 7\System\Yak.exe" search --all --prerelease marmoset
+```
+
+If you just want to test:
+
+```bash
+"C:\Program Files\Rhino 7\System\Yak.exe" search --source https://test.yak.rhino3d.com --all --prerelease marmoset
+```
+
