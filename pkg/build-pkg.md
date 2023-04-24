@@ -45,13 +45,13 @@ Authorize the Yak CLI tool.
 Publish pkg.
 
 ```bash
-"C:\Program Files\Rhino 7\System\Yak.exe" push marmoset-1.0.0-rh6_18-any.yak
+"C:\Program Files\Rhino 7\System\Yak.exe" push nano3d-1.0.0-rh7_13-any.yak
 ```
 
 If you just want to test without actually publishing:
 
 ```bash
-"C:\Program Files\Rhino 7\System\Yak.exe" push --source https://test.yak.rhino3d.com marmoset-1.0.0-rh6_18-any.yak
+"C:\Program Files\Rhino 7\System\Yak.exe" push --source https://test.yak.rhino3d.com nano3d-1.0.0-rh7_13-any.yak
 ```
 
 ## Check
@@ -59,12 +59,12 @@ If you just want to test without actually publishing:
 Check if pkg is pushed fine.
 
 ```bash
-"C:\Program Files\Rhino 7\System\Yak.exe" search --all --prerelease marmoset
+"C:\Program Files\Rhino 7\System\Yak.exe" search --all --prerelease Nano3D
 ```
 
 If you just want to test:
 
 ```bash
-"C:\Program Files\Rhino 7\System\Yak.exe" search --source https://test.yak.rhino3d.com --all --prerelease marmoset
+"C:\Program Files\Rhino 7\System\Yak.exe" search --source https://test.yak.rhino3d.com --all --prerelease Nano3D
 ```
 
