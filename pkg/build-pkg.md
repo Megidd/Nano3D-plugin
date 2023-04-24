@@ -17,12 +17,14 @@ Copy other dependencies if any.
 Generate `manifest.yml` file by the following command. The `manifest.yml` file is generated only once. Once you have one, keep it with your project and update it for each release.
 
 ```bash
+cd dist/
 "C:\Program Files\Rhino 7\System\Yak.exe" spec
 ```
 
 ## build
 
 ```bash
+cd dist/
 "C:\Program Files\Rhino 7\System\Yak.exe" build
 ```
 
