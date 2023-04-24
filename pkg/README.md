@@ -37,6 +37,7 @@ cd dist/
 Authorize the Yak CLI tool.
 
 ```bash
+cd dist/
 "C:\Program Files\Rhino 7\System\Yak.exe" login
 ```
 
@@ -45,12 +46,14 @@ Authorize the Yak CLI tool.
 Publish pkg.
 
 ```bash
+cd dist/
 "C:\Program Files\Rhino 7\System\Yak.exe" push nano3d-1.0.0-rh7_13-any.yak
 ```
 
 If you just want to test without actually publishing:
 
 ```bash
+cd dist/
 "C:\Program Files\Rhino 7\System\Yak.exe" push --source https://test.yak.rhino3d.com nano3d-1.0.0-rh7_13-any.yak
 ```
 
@@ -59,12 +62,14 @@ If you just want to test without actually publishing:
 Check if pkg is pushed fine.
 
 ```bash
+cd dist/
 "C:\Program Files\Rhino 7\System\Yak.exe" search --all --prerelease Nano3D
 ```
 
 If you just want to test:
 
 ```bash
+cd dist/
 "C:\Program Files\Rhino 7\System\Yak.exe" search --source https://test.yak.rhino3d.com --all --prerelease Nano3D
 ```
 
