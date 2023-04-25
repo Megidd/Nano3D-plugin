@@ -31,7 +31,7 @@ namespace Nano3D
         protected override LoadReturnCode OnLoad(ref string errorMessage)
         {
             printer = System.Diagnostics.Process.Start("printer.exe");
-            RhinoApp.WriteLine("Server is started.");
+            RhinoApp.WriteLine("Nano3D server is started.");
             return LoadReturnCode.Success;
         }
 
@@ -39,7 +39,7 @@ namespace Nano3D
         {
             printer.CloseMainWindow();
             printer.Close();
-            RhinoApp.WriteLine("Server is closed.");
+            RhinoApp.WriteLine("Nano3D server is closed.");
             return;
         }
     }
