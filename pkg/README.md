@@ -11,7 +11,7 @@ cp ../../Nano3D/bin/Release/net48/Nano3D.rhp .
 
 ## Dependencies
 
-Copy other dependencies if any.
+Copy other dependencies like Nano3D server executable `printer.exe` next to `Nano3D.rhp`.
 
 ## Manifest
 
