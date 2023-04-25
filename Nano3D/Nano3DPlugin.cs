@@ -1,4 +1,5 @@
 ﻿using Rhino;
+using Rhino.PlugIns;
 using System;
 
 namespace Nano3D
@@ -24,5 +25,20 @@ namespace Nano3D
         // You can override methods here to change the plug-in behavior on
         // loading and shut down, add options pages to the Rhino _Option command
         // and maintain plug-in wide options in a document.
+
+        private System.Diagnostics.Process printer;
+
+        protected override LoadReturnCode OnLoad(ref string errorMessage)
+        {
+            printer = System.Diagnostics.Process.Start("printer.exe");
+            return LoadReturnCode.Success;
+        }
+
+        protected override void OnShutdown()
+        {
+            printer.CloseMainWindow();
+            printer.Close();
+            return;
+        }
     }
 }
