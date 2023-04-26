@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Http;
+using Eto.Forms;
 using Rhino;
 using Rhino.Commands;
 using Rhino.DocObjects;
@@ -36,6 +37,12 @@ namespace Nano3D
 
             Guid meshId = GetMeshId();
             RhinoApp.WriteLine("Mesh {0} is selected.", meshId);
+            var obj = doc.Objects.FindId(meshId);
+            if (null == obj || obj.ObjectType != ObjectType.Mesh)
+            {
+                RhinoApp.WriteLine("Mesh is not valid.");
+                return Result.Failure;
+            }
 
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
 
