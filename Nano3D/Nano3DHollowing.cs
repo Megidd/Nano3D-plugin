@@ -2,6 +2,8 @@
 using System.Net.Http;
 using Rhino;
 using Rhino.Commands;
+using Rhino.DocObjects;
+using Rhino.Input.Custom;
 
 namespace Nano3D
 {
@@ -32,9 +34,35 @@ namespace Nano3D
 
             // TODO: complete command.
 
+            Guid meshId = GetObjectId();
+            RhinoApp.WriteLine("Mesh {0} is selected.", meshId);
+
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
 
             return Result.Success;
+        }
+
+        // A simple method to select a single mesh and leave other selected objects selected.
+        // https://discourse.mcneel.com/t/getobject-only-one-with-enter-prompt/111842/2?u=megidd_git
+        public Guid GetObjectId()
+        {
+            var rc = Guid.Empty;
+            var go = new GetObject();
+            go.SetCommandPrompt("Select mesh");
+            go.GeometryFilter = ObjectType.Mesh;
+            go.EnablePreSelect(false, true);
+            go.DeselectAllBeforePostSelect = false;
+            go.Get();
+            if (go.CommandResult() == Result.Success)
+            {
+                var rh_obj = go.Object(0).Object();
+                if (null != rh_obj)
+                {
+                    rh_obj.Select(true); // leave selected
+                    rc = rh_obj.Id;
+                }
+            }
+            return rc;
         }
     }
 }
