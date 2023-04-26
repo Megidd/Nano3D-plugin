@@ -35,7 +35,7 @@ namespace Nano3D
 
             // TODO: complete command.
 
-            const ObjectType geometryFilter = ObjectType.Mesh;
+            const ObjectType geometryFilter = ObjectType.Surface | ObjectType.PolysrfFilter | ObjectType.Mesh;
             int integer1 = 300;
             int integer2 = 300;
 
@@ -43,7 +43,7 @@ namespace Nano3D
             OptionInteger optionInteger2 = new OptionInteger(integer2, 200, 900);
 
             GetObject go = new GetObject();
-            go.SetCommandPrompt("Select a mesh");
+            go.SetCommandPrompt("Select surfaces, polysurfaces, or meshes");
             go.GeometryFilter = geometryFilter;
             go.AddOptionInteger("Option1", ref optionInteger1);
             go.AddOptionInteger("Option2", ref optionInteger2);
