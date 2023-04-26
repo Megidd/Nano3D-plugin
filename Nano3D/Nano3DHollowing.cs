@@ -47,7 +47,7 @@ namespace Nano3D
             go.GeometryFilter = geometryFilter;
             go.AddOptionInteger("Option1", ref optionInteger1);
             go.AddOptionInteger("Option2", ref optionInteger2);
-            go.GroupSelect = true;
+            go.GroupSelect = false;
             go.SubObjectSelect = false;
             go.EnableClearObjectsOnEntry(false);
             go.EnableUnselectObjectsOnExit(false);
