@@ -34,7 +34,7 @@ namespace Nano3D
 
             // TODO: complete command.
 
-            Guid meshId = GetObjectId();
+            Guid meshId = GetMeshId();
             RhinoApp.WriteLine("Mesh {0} is selected.", meshId);
 
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
@@ -44,7 +44,7 @@ namespace Nano3D
 
         // A simple method to select a single mesh and leave other selected objects selected.
         // https://discourse.mcneel.com/t/getobject-only-one-with-enter-prompt/111842/2?u=megidd_git
-        public Guid GetObjectId()
+        public Guid GetMeshId()
         {
             var rc = Guid.Empty;
             var go = new GetObject();
