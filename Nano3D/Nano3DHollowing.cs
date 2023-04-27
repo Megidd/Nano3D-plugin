@@ -4,7 +4,10 @@ using Eto.Forms;
 using Rhino;
 using Rhino.Commands;
 using Rhino.DocObjects;
+using Rhino.Geometry;
+using Rhino.Geometry.Collections;
 using Rhino.Input.Custom;
+using Command = Rhino.Commands.Command;
 
 namespace Nano3D
 {
@@ -43,9 +46,21 @@ namespace Nano3D
                 RhinoApp.WriteLine("Mesh is not valid.");
                 return Result.Failure;
             }
+            Mesh mesh = obj.Geometry as Mesh;
+            if (mesh == null)
+            {
+                RhinoApp.WriteLine("Mesh is not valid.");
+                return Result.Failure;
+            }
+            MeshFaceList faces = mesh.Faces;
+            bool converted = faces.ConvertQuadsToTriangles();
+            if (converted)
+            {
+                RhinoApp.WriteLine("Cannot convert quads to triangles. Maybe there is no quad already.");
+            }
+            RhinoApp.WriteLine("Number of mesh triangles is {0}.", faces.Count);
 
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
-
             return Result.Success;
         }
 
