@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using Rhino;
@@ -56,6 +57,9 @@ namespace Nano3D
             float[] vertexBuffer;
             int[] indexBuffer;
             GetMeshBuffers(mesh, out vertexBuffer, out indexBuffer);
+
+            Mesh meshOut = CreateMesh(vertexBuffer, indexBuffer);
+            ExportMeshToStl(meshOut, "mesh-out.stl");
 
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
             return Result.Success;
@@ -140,25 +144,34 @@ namespace Nano3D
             return newMesh;
         }
 
-        public static void ExportMeshAsStl(Mesh mesh, string fileName)
+        public static bool ExportMeshToStl(Mesh mesh, string fileName)
         {
-            // Create a new 3dm file
-            File3dm file = new File3dm();
+            if (mesh == null || string.IsNullOrEmpty(fileName)) return false;
 
-            // Add the mesh to the file
-            file.Objects.AddMesh(mesh);
+            // Create a temporary layer to isolate the specific mesh
+            var tempLayer = new Layer { Name = "TempLayerForStlExport" };
+            int tempLayerIndex = RhinoDoc.ActiveDoc.Layers.Add(tempLayer);
+            if (tempLayerIndex < 0) return false;
 
-            // Set the file version to the latest version
-            file.Settings.ModelUnitSystem = UnitSystem.Millimeters;
-            file.Settings.ModelAbsoluteTolerance = RhinoMath.ZeroTolerance;
-            file.Settings.ModelAngleToleranceRadians = RhinoMath.ToRadians(1.0);
+            // Add the mesh to the temporary layer
+            var attributes = new ObjectAttributes { LayerIndex = tempLayerIndex };
+            var meshId = RhinoDoc.ActiveDoc.Objects.AddMesh(mesh, attributes);
+            if (meshId == Guid.Empty)
+            {
+                RhinoDoc.ActiveDoc.Layers.Delete(tempLayerIndex, true);
+                return false;
+            }
 
-            // Export the file as an STL file
-            File3dmWriteOptions options = new File3dmWriteOptions();
+            // Use RhinoApp.RunScript to export the mesh on the temporary layer as an STL file
+            var script = $"_-Export \"{fileName}\" _Enter";
+            RhinoDoc.ActiveDoc.Layers.SetCurrentLayerIndex(tempLayerIndex, true);
+            bool result = RhinoApp.RunScript(script, false);
 
-            // TODO: compose options.
+            // Remove the mesh and the temporary layer from the current document
+            RhinoDoc.ActiveDoc.Objects.Delete(meshId, true);
+            RhinoDoc.ActiveDoc.Layers.Delete(tempLayerIndex, true);
 
-            file.Write(fileName, options);
+            return result;
         }
     }
 }
