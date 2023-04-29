@@ -87,5 +87,43 @@ namespace Nano3D
             if (obj.ObjectType != ObjectType.Mesh) return null;
             return obj;
         }
+
+        public static Mesh CreateMesh(float[] vertexBuffer, int[] indexBuffer)
+        {
+            // Create new mesh
+            Mesh newMesh = new Mesh();
+
+            // Set vertices
+            for (int i = 0; i < vertexBuffer.Length; i += 3)
+            {
+                Point3f vertex = new Point3f(vertexBuffer[i], vertexBuffer[i + 1], vertexBuffer[i + 2]);
+                newMesh.Vertices.Add(vertex);
+            }
+
+            // Set faces
+            for (int i = 0; i < indexBuffer.Length; i += 3)
+            {
+                int indexA = indexBuffer[i];
+                int indexB = indexBuffer[i + 1];
+                int indexC = indexBuffer[i + 2];
+                newMesh.Faces.AddFace(indexA, indexB, indexC);
+            }
+
+            // Compute vertex normals
+            newMesh.Normals.ComputeNormals();
+
+            // Optional: Compact the mesh to remove unused vertices
+            newMesh.Compact();
+
+            // Optional: Ensure the mesh is valid
+            bool valid = newMesh.IsValidWithLog(out string log);
+            if (!valid)
+            {
+                RhinoApp.WriteLine("Warning: New mesh is not valid.");
+                RhinoApp.WriteLine(log);
+            }
+
+            return newMesh;
+        }
     }
 }
