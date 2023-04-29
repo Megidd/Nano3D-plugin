@@ -50,6 +50,26 @@ namespace Nano3D
             RhinoApp.WriteLine("Number of mesh vertices: {0}", mesh.Vertices.Count);
             RhinoApp.WriteLine("Number of mesh triangles: {0}", mesh.Faces.Count);
 
+            // Extract vertex buffer
+            float[] vertexBuffer = new float[mesh.Vertices.Count * 3];
+            for (int i = 0; i < mesh.Vertices.Count; i++)
+            {
+                Point3f vertex = mesh.Vertices[i];
+                vertexBuffer[i * 3] = vertex.X;
+                vertexBuffer[i * 3 + 1] = vertex.Y;
+                vertexBuffer[i * 3 + 2] = vertex.Z;
+            }
+
+            // Extract index buffer
+            int[] indexBuffer = new int[mesh.Faces.Count * 3];
+            for (int i = 0; i < mesh.Faces.Count; i++)
+            {
+                MeshFace face = mesh.Faces[i];
+                indexBuffer[i * 3] = face.A;
+                indexBuffer[i * 3 + 1] = face.B;
+                indexBuffer[i * 3 + 2] = face.C;
+            }
+
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
             return Result.Success;
         }
