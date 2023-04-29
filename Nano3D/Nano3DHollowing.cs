@@ -31,9 +31,7 @@ namespace Nano3D
 
             // TODO: complete command.
 
-            Guid meshId = GetMeshId();
-            RhinoApp.WriteLine("Mesh {0} is selected.", meshId);
-            var obj = doc.Objects.FindId(meshId);
+            RhinoObject obj = GetSingleMesh();
             if (null == obj || obj.ObjectType != ObjectType.Mesh)
             {
                 RhinoApp.WriteLine("Mesh is not valid.");
@@ -57,27 +55,18 @@ namespace Nano3D
             return Result.Success;
         }
 
-        // A simple method to select a single mesh and leave other selected objects selected.
-        // https://discourse.mcneel.com/t/getobject-only-one-with-enter-prompt/111842/2?u=megidd_git
-        public Guid GetMeshId()
+        // A simple method to prompt the user to select a single mesh and return it.
+        public static RhinoObject GetSingleMesh()
         {
-            var rc = Guid.Empty;
-            var go = new GetObject();
-            go.SetCommandPrompt("Select mesh");
+            GetObject go = new GetObject();
+            go.SetCommandPrompt("Select a single mesh");
             go.GeometryFilter = ObjectType.Mesh;
-            go.EnablePreSelect(false, true);
-            go.DeselectAllBeforePostSelect = false;
             go.Get();
-            if (go.CommandResult() == Result.Success)
-            {
-                var rh_obj = go.Object(0).Object();
-                if (null != rh_obj)
-                {
-                    rh_obj.Select(true); // leave selected
-                    rc = rh_obj.Id;
-                }
-            }
-            return rc;
+            if (go.CommandResult() != Result.Success) return null;
+            if (go.ObjectCount != 1) return null;
+            RhinoObject obj = go.Object(0).Object();
+            if (obj.ObjectType != ObjectType.Mesh) return null;
+            return obj;
         }
     }
 }
