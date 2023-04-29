@@ -3,6 +3,7 @@ using System.Net.Http;
 using Rhino;
 using Rhino.Commands;
 using Rhino.DocObjects;
+using Rhino.FileIO;
 using Rhino.Geometry;
 using Rhino.Geometry.Collections;
 using Rhino.Input.Custom;
@@ -124,6 +125,27 @@ namespace Nano3D
             }
 
             return newMesh;
+        }
+
+        public static void ExportMeshAsStl(Mesh mesh, string fileName)
+        {
+            // Create a new 3dm file
+            File3dm file = new File3dm();
+
+            // Add the mesh to the file
+            file.Objects.AddMesh(mesh);
+
+            // Set the file version to the latest version
+            file.Settings.ModelUnitSystem = UnitSystem.Millimeters;
+            file.Settings.ModelAbsoluteTolerance = RhinoMath.ZeroTolerance;
+            file.Settings.ModelAngleToleranceRadians = RhinoMath.ToRadians(1.0);
+
+            // Export the file as an STL file
+            File3dmWriteOptions options = new File3dmWriteOptions();
+
+            // TODO: compose options.
+
+            file.Write(fileName, options);
         }
     }
 }
