@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Net.Http;
 using Rhino;
 using Rhino.Commands;
@@ -51,25 +52,10 @@ namespace Nano3D
             RhinoApp.WriteLine("Number of mesh vertices: {0}", mesh.Vertices.Count);
             RhinoApp.WriteLine("Number of mesh triangles: {0}", mesh.Faces.Count);
 
-            // Extract vertex buffer
-            float[] vertexBuffer = new float[mesh.Vertices.Count * 3];
-            for (int i = 0; i < mesh.Vertices.Count; i++)
-            {
-                Point3f vertex = mesh.Vertices[i];
-                vertexBuffer[i * 3] = vertex.X;
-                vertexBuffer[i * 3 + 1] = vertex.Y;
-                vertexBuffer[i * 3 + 2] = vertex.Z;
-            }
-
-            // Extract index buffer
-            int[] indexBuffer = new int[mesh.Faces.Count * 3];
-            for (int i = 0; i < mesh.Faces.Count; i++)
-            {
-                MeshFace face = mesh.Faces[i];
-                indexBuffer[i * 3] = face.A;
-                indexBuffer[i * 3 + 1] = face.B;
-                indexBuffer[i * 3 + 2] = face.C;
-            }
+            // Extract vertex buffer and index buffer.
+            float[] vertexBuffer;
+            int[] indexBuffer;
+            GetMeshBuffers(mesh, out vertexBuffer, out indexBuffer);
 
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
             return Result.Success;
@@ -87,6 +73,33 @@ namespace Nano3D
             RhinoObject obj = go.Object(0).Object();
             if (obj.ObjectType != ObjectType.Mesh) return null;
             return obj;
+        }
+
+        public static void GetMeshBuffers(Mesh mesh, out float[] vertexBuffer, out int[] indexBuffer)
+        {
+            // Convert quads to triangles
+            mesh.Faces.ConvertQuadsToTriangles();
+
+            // Get vertex buffer
+            Point3f[] vertices = mesh.Vertices.ToPoint3fArray();
+            vertexBuffer = new float[vertices.Length * 3];
+            for (int i = 0; i < vertices.Length; i++)
+            {
+                vertexBuffer[i * 3] = vertices[i].X;
+                vertexBuffer[i * 3 + 1] = vertices[i].Y;
+                vertexBuffer[i * 3 + 2] = vertices[i].Z;
+            }
+
+            // Get index buffer
+            MeshFace[] faces = mesh.Faces.ToArray();
+            indexBuffer = new int[faces.Length * 3];
+            for (int i = 0; i < faces.Length; i++)
+            {
+                MeshFace face = faces[i];
+                indexBuffer[i * 3] = face.A;
+                indexBuffer[i * 3 + 1] = face.B;
+                indexBuffer[i * 3 + 2] = face.C;
+            }
         }
 
         public static Mesh CreateMesh(float[] vertexBuffer, int[] indexBuffer)
