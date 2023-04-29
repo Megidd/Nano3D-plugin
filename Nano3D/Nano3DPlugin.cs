@@ -26,19 +26,19 @@ namespace Nano3D
         // loading and shut down, add options pages to the Rhino _Option command
         // and maintain plug-in wide options in a document.
 
-        private System.Diagnostics.Process printer;
+        private System.Diagnostics.Process service;
 
         protected override LoadReturnCode OnLoad(ref string errorMessage)
         {
-            printer = System.Diagnostics.Process.Start("printer.exe");
+            service = System.Diagnostics.Process.Start("nano3d-service.exe");
             RhinoApp.WriteLine("Nano3D server is started.");
             return LoadReturnCode.Success;
         }
 
         protected override void OnShutdown()
         {
-            printer.CloseMainWindow();
-            printer.Close();
+            service.CloseMainWindow();
+            service.Close();
             RhinoApp.WriteLine("Nano3D server is closed.");
             return;
         }
