@@ -29,13 +29,6 @@ namespace Nano3D
         {
             RhinoApp.WriteLine("The {0} command received the document.", EnglishName);
 
-            var response = client.GetStringAsync("http://127.0.0.1:8080/status").Result;
-
-            if (response != null)
-            {
-                RhinoApp.WriteLine("Nano3D server responded with status: {0}", response);
-            }
-
             // TODO: complete command.
 
             Guid meshId = GetMeshId();
