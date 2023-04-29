@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Http;
-using Eto.Forms;
 using Rhino;
 using Rhino.Commands;
 using Rhino.DocObjects;
@@ -43,13 +42,13 @@ namespace Nano3D
                 RhinoApp.WriteLine("Mesh is not valid.");
                 return Result.Failure;
             }
-            MeshFaceList faces = mesh.Faces;
-            bool converted = faces.ConvertQuadsToTriangles();
+            bool converted = mesh.Faces.ConvertQuadsToTriangles();
             if (converted)
             {
-                RhinoApp.WriteLine("Cannot convert quads to triangles. Maybe there is no quad already.");
+                RhinoApp.WriteLine("Mesh contains quads. They are converted to triangles.");
             }
-            RhinoApp.WriteLine("Number of mesh triangles is {0}.", faces.Count);
+            RhinoApp.WriteLine("Number of mesh vertices: {0}", mesh.Vertices.Count);
+            RhinoApp.WriteLine("Number of mesh triangles: {0}", mesh.Faces.Count);
 
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
             return Result.Success;
