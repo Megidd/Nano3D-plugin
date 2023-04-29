@@ -58,8 +58,7 @@ namespace Nano3D
             int[] indexBuffer;
             GetMeshBuffers(mesh, out vertexBuffer, out indexBuffer);
 
-            Mesh meshOut = CreateMesh(vertexBuffer, indexBuffer);
-            ExportMeshToStl(meshOut, "mesh-out.stl");
+            SaveMeshAsStl(vertexBuffer, indexBuffer, "mesh-out.stl");
 
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
             return Result.Success;
@@ -144,34 +143,69 @@ namespace Nano3D
             return newMesh;
         }
 
-        public static bool ExportMeshToStl(Mesh mesh, string fileName)
+        public static void SaveMeshAsStl(float[] vertexBuffer, int[] indexBuffer, string fileName)
         {
-            if (mesh == null || string.IsNullOrEmpty(fileName)) return false;
+            // Open the file for writing
+            FileStream fileStream = new FileStream(fileName, FileMode.Create);
 
-            // Create a temporary layer to isolate the specific mesh
-            var tempLayer = new Layer { Name = "TempLayerForStlExport" };
-            int tempLayerIndex = RhinoDoc.ActiveDoc.Layers.Add(tempLayer);
-            if (tempLayerIndex < 0) return false;
+            // Write the STL header
+            byte[] header = new byte[80];
+            fileStream.Write(header, 0, header.Length);
 
-            // Add the mesh to the temporary layer
-            var attributes = new ObjectAttributes { LayerIndex = tempLayerIndex };
-            var meshId = RhinoDoc.ActiveDoc.Objects.AddMesh(mesh, attributes);
-            if (meshId == Guid.Empty)
+            // Write the number of triangles
+            byte[] triangleCount = BitConverter.GetBytes(indexBuffer.Length / 3);
+            fileStream.Write(triangleCount, 0, 4);
+
+            // Write the triangles
+            for (int i = 0; i < indexBuffer.Length; i += 3)
             {
-                RhinoDoc.ActiveDoc.Layers.Delete(tempLayerIndex, true);
-                return false;
+                // Get vertices for the current triangle
+                float x1 = vertexBuffer[indexBuffer[i] * 3];
+                float y1 = vertexBuffer[indexBuffer[i] * 3 + 1];
+                float z1 = vertexBuffer[indexBuffer[i] * 3 + 2];
+                float x2 = vertexBuffer[indexBuffer[i + 1] * 3];
+                float y2 = vertexBuffer[indexBuffer[i + 1] * 3 + 1];
+                float z2 = vertexBuffer[indexBuffer[i + 1] * 3 + 2];
+                float x3 = vertexBuffer[indexBuffer[i + 2] * 3];
+                float y3 = vertexBuffer[indexBuffer[i + 2] * 3 + 1];
+                float z3 = vertexBuffer[indexBuffer[i + 2] * 3 + 2];
+
+                // Compute the normal vector of the triangle
+                float nx = (y2 - y1) * (z3 - z1) - (z2 - z1) * (y3 - y1);
+                float ny = (z2 - z1) * (x3 - x1) - (x2 - x1) * (z3 - z1);
+                float nz = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
+                float length = (float)Math.Sqrt(nx * nx + ny * ny + nz * nz);
+                nx /= length;
+                ny /= length;
+                nz /= length;
+
+                // Write the normal vector
+                byte[] normal = new byte[12];
+                BitConverter.GetBytes(nx).CopyTo(normal, 0);
+                BitConverter.GetBytes(ny).CopyTo(normal, 4);
+                BitConverter.GetBytes(nz).CopyTo(normal, 8);
+                fileStream.Write(normal, 0, normal.Length);
+
+                // Write the vertices
+                byte[] triangle = new byte[50];
+                BitConverter.GetBytes(x1).CopyTo(triangle, 0);
+                BitConverter.GetBytes(y1).CopyTo(triangle, 4);
+                BitConverter.GetBytes(z1).CopyTo(triangle, 8);
+                BitConverter.GetBytes(x2).CopyTo(triangle, 12);
+                BitConverter.GetBytes(y2).CopyTo(triangle, 16);
+                BitConverter.GetBytes(z2).CopyTo(triangle, 20);
+                BitConverter.GetBytes(x3).CopyTo(triangle, 24);
+                BitConverter.GetBytes(y3).CopyTo(triangle, 28);
+                BitConverter.GetBytes(z3).CopyTo(triangle, 32);
+                fileStream.Write(triangle, 0, triangle.Length);
+
+                // Write the triangle attribute (zero)
+                byte[] attribute = new byte[2];
+                fileStream.Write(attribute, 0, attribute.Length);
             }
 
-            // Use RhinoApp.RunScript to export the mesh on the temporary layer as an STL file
-            var script = $"_-Export \"{fileName}\" _Enter";
-            RhinoDoc.ActiveDoc.Layers.SetCurrentLayerIndex(tempLayerIndex, true);
-            bool result = RhinoApp.RunScript(script, false);
-
-            // Remove the mesh and the temporary layer from the current document
-            RhinoDoc.ActiveDoc.Objects.Delete(meshId, true);
-            RhinoDoc.ActiveDoc.Layers.Delete(tempLayerIndex, true);
-
-            return result;
+            // Close the file
+            fileStream.Close();
         }
     }
 }
