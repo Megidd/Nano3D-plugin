@@ -201,5 +201,28 @@ namespace Nano3D
 
             return data;
         }
+
+        public static void UnpackBuffers(byte[] data, out int[] indexBuffer, out float[] vertexBuffer)
+        {
+            // Read the length of the index buffer from the data array
+            int indexBufferLength = BitConverter.ToInt32(data, 0);
+
+            // Read the index buffer from the data array
+            indexBuffer = new int[indexBufferLength / sizeof(int)];
+            for (int i = 0; i < indexBuffer.Length; i++)
+            {
+                indexBuffer[i] = BitConverter.ToInt32(data, sizeof(int) + i * sizeof(int));
+            }
+
+            // Read the length of the vertex buffer from the data array
+            int vertexBufferLength = BitConverter.ToInt32(data, sizeof(int) + indexBufferLength);
+
+            // Read the vertex buffer from the data array
+            vertexBuffer = new float[vertexBufferLength / sizeof(float)];
+            for (int i = 0; i < vertexBuffer.Length; i++)
+            {
+                vertexBuffer[i] = BitConverter.ToSingle(data, sizeof(int) * 2 + indexBufferLength + i * sizeof(float));
+            }
+        }
     }
 }

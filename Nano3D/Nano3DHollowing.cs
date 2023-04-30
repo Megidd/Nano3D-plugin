@@ -72,6 +72,22 @@ namespace Nano3D
             byte[] response = HttpHelper.SendPostRequest(HttpHelper.UrlHollowing, fields, files);
             RhinoApp.WriteLine("HTTP response length: {0}.", response.Length);
 
+            int[] indexBufferOut;
+            float[] vertexBufferOut;
+            MeshHelper.UnpackBuffers(response, out indexBufferOut, out vertexBufferOut);
+            // Use the returned index and vertex buffers to create a new mesh.
+            Mesh meshOut = MeshHelper.CreateFromBuffers(vertexBufferOut, indexBufferOut);
+
+            // Create a new object attributes with the desired name
+            ObjectAttributes attributes = new ObjectAttributes();
+            attributes.Name = "Hollowed Mesh";
+
+            // Add the mesh to the document with the specified attributes
+            doc.Objects.AddMesh(mesh, attributes);
+
+            // Redraw the viewports to update the display
+            doc.Views.Redraw();
+
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
             return Result.Success;
         }
