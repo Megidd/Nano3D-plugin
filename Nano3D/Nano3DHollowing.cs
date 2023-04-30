@@ -188,7 +188,7 @@ namespace Nano3D
                     fileStream.Write(normal, 0, normal.Length);
 
                     // Write the vertices in counter-clockwise order
-                    byte[] triangle = new byte[50];
+                    byte[] triangle = new byte[36];
                     BitConverter.GetBytes(x1).CopyTo(triangle, 12);
                     BitConverter.GetBytes(y1).CopyTo(triangle, 16);
                     BitConverter.GetBytes(z1).CopyTo(triangle, 20);
