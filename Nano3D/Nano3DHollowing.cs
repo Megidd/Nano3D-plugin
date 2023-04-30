@@ -64,7 +64,8 @@ namespace Nano3D
             byte[] data = MeshHelper.ProcessBuffers(indexBuffer, vertexBuffer);
 
             Dictionary<string, string> fields = new Dictionary<string, string>();
-            fields.Add("thickness", "0.5");
+            float thickness = Utilities.GetFloatFromUser(1.8, 0.0, 100.0, "Enter wall thickness for hollowing.");
+            fields.Add("thickness", thickness.ToString());
             fields.Add("precision", "3");
             fields.Add("infill", "false");
             Dictionary<string, byte[]> files = new Dictionary<string, byte[]>();
