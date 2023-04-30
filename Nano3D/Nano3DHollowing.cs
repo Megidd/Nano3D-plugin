@@ -58,7 +58,7 @@ namespace Nano3D
             int[] indexBuffer;
             GetMeshBuffers(mesh, out vertexBuffer, out indexBuffer);
 
-            SaveMeshAsStl(vertexBuffer, indexBuffer, "mesh-out.stl");
+            SaveBuffersAsStl(vertexBuffer, indexBuffer, "mesh-out.stl");
 
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
             return Result.Success;
@@ -143,7 +143,7 @@ namespace Nano3D
             return newMesh;
         }
 
-        public static void SaveMeshAsStl(float[] vertexBuffer, int[] indexBuffer, string fileName)
+        public static void SaveBuffersAsStl(float[] vertexBuffer, int[] indexBuffer, string fileName)
         {
             // Open the file for writing
             using (FileStream fileStream = new FileStream(fileName, FileMode.Create))
