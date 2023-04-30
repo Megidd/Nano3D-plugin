@@ -69,8 +69,8 @@ namespace Nano3D
             fields.Add("infill", "false");
             Dictionary<string, byte[]> files = new Dictionary<string, byte[]>();
             files.Add("input", data);
-            string response = HttpHelper.SendHttpPostRequest(HttpHelper.UrlHollowing, fields, files);
-            Console.WriteLine(response);
+            byte[] response = HttpHelper.SendPostRequest(HttpHelper.UrlHollowing, fields, files);
+            RhinoApp.WriteLine("HTTP response length: {0}.", response.Length);
 
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
             return Result.Success;
