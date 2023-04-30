@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -61,6 +62,15 @@ namespace Nano3D
             MeshHelper.SaveBuffersAsStl(vertexBuffer, indexBuffer, "mesh-out.stl");
 
             byte[] data = MeshHelper.ProcessBuffers(indexBuffer, vertexBuffer);
+
+            Dictionary<string, string> fields = new Dictionary<string, string>();
+            fields.Add("thickness", "0.5");
+            fields.Add("precision", "3");
+            fields.Add("infill", "false");
+            Dictionary<string, byte[]> files = new Dictionary<string, byte[]>();
+            files.Add("input", data);
+            string response = HttpHelper.SendHttpPostRequest(HttpHelper.UrlHollowing, fields, files);
+            Console.WriteLine(response);
 
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
             return Result.Success;
