@@ -58,13 +58,7 @@ namespace Nano3D
             int[] indexBuffer;
             GetMeshBuffers(mesh, out vertexBuffer, out indexBuffer);
 
-            // Test whether mesh is created correctly by the buffers.
-            Mesh meshOut = CreateMesh(vertexBuffer, indexBuffer);
-            float[] vertexBufferOut;
-            int[] indexBufferOut;
-            GetMeshBuffers(meshOut, out vertexBufferOut, out indexBufferOut);
-
-            SaveBuffersAsStl(vertexBufferOut, indexBufferOut, "mesh-out.stl");
+            SaveBuffersAsStl(vertexBuffer, indexBuffer, "mesh-out.stl");
 
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
             return Result.Success;
