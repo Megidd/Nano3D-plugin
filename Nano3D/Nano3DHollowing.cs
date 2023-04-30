@@ -59,7 +59,7 @@ namespace Nano3D
             int[] indexBuffer;
             MeshHelper.GetBuffers(mesh, out vertexBuffer, out indexBuffer);
 
-            MeshHelper.SaveBuffersAsStl(vertexBuffer, indexBuffer, "mesh-out.stl");
+            MeshHelper.SaveBuffersAsStl(vertexBuffer, indexBuffer, "mesh.stl");
 
             byte[] data = MeshHelper.ProcessBuffers(indexBuffer, vertexBuffer);
 
@@ -77,6 +77,8 @@ namespace Nano3D
             MeshHelper.UnpackBuffers(response, out indexBufferOut, out vertexBufferOut);
             // Use the returned index and vertex buffers to create a new mesh.
             Mesh meshOut = MeshHelper.CreateFromBuffers(vertexBufferOut, indexBufferOut);
+
+            MeshHelper.SaveBuffersAsStl(vertexBufferOut, indexBufferOut, "mesh-hollowed.stl");
 
             // Create a new object attributes with the desired name
             ObjectAttributes attributes = new ObjectAttributes();
