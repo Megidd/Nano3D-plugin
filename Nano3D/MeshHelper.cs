@@ -14,7 +14,10 @@ namespace Nano3D
 {
     internal class MeshHelper
     {
-        // A simple method to prompt the user to select a single mesh and return it.
+        /// <summary>
+        /// A simple method to prompt the user to select a single mesh.
+        /// </summary>
+        /// <returns>Selected object that should be of type mesh.</returns>
         public static RhinoObject GetSingle()
         {
             GetObject go = new GetObject();
@@ -155,6 +158,48 @@ namespace Nano3D
                     fileStream.Write(attribute, 0, attribute.Length);
                 }
             }
+        }
+
+        /// <summary>
+        /// Prepare an array of bytes expected by the Nano3D service.
+        /// </summary>
+        /// <returns>
+        /// Returned data structure is like this: https://stackoverflow.com/a/75432567/3405291
+        /// </returns>
+        public static byte[] ProcessBuffers(int[] indexBuffer, float[] vertexBuffer)
+        {
+            // Compute the length of the index buffer in bytes
+            int indexBufferSize = sizeof(int) * indexBuffer.Length;
+
+            // Compute the length of the vertex buffer in bytes
+            int vertexBufferSize = sizeof(float) * vertexBuffer.Length;
+
+            // Create a new array of bytes to hold the packed index and vertex data
+            byte[] data = new byte[sizeof(int) * 2 + indexBufferSize + vertexBufferSize];
+
+            // Pack the length of the index buffer into the data array
+            byte[] indexLengthBytes = BitConverter.GetBytes(indexBufferSize);
+            Array.Copy(indexLengthBytes, 0, data, 0, sizeof(int));
+
+            // Pack the index buffer into the data array
+            for (int i = 0; i < indexBuffer.Length; i++)
+            {
+                byte[] indexBytes = BitConverter.GetBytes(indexBuffer[i]);
+                Array.Copy(indexBytes, 0, data, sizeof(int) + i * sizeof(int), sizeof(int));
+            }
+
+            // Pack the length of the vertex buffer into the data array
+            byte[] vertexLengthBytes = BitConverter.GetBytes(vertexBufferSize);
+            Array.Copy(vertexLengthBytes, 0, data, sizeof(int) + indexBufferSize, sizeof(int));
+
+            // Pack the vertex buffer into the data array
+            for (int i = 0; i < vertexBuffer.Length; i++)
+            {
+                byte[] vertexBytes = BitConverter.GetBytes(vertexBuffer[i]);
+                Array.Copy(vertexBytes, 0, data, sizeof(int) * 2 + indexBufferSize + i * sizeof(float), sizeof(float));
+            }
+
+            return data;
         }
     }
 }

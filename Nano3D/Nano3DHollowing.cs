@@ -60,6 +60,8 @@ namespace Nano3D
 
             MeshHelper.SaveBuffersAsStl(vertexBuffer, indexBuffer, "mesh-out.stl");
 
+            byte[] data = MeshHelper.ProcessBuffers(indexBuffer, vertexBuffer);
+
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
             return Result.Success;
         }
