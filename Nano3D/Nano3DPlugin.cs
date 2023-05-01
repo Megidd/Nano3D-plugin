@@ -38,14 +38,20 @@ namespace Nano3D
 
         protected override void OnShutdown()
         {
-            bool closed = service.CloseMainWindow();
-            if (!closed)
+            try
             {
-                RhinoApp.WriteLine("Nano3D service window couldn't be closed.");
+                bool closed = service.CloseMainWindow();
+                if (!closed)
+                {
+                    RhinoApp.WriteLine("Nano3D service window couldn't be closed.");
+                }
+                service.Close();
+                RhinoApp.WriteLine("Nano3D service is closed.");
             }
-            service.Close();
-            RhinoApp.WriteLine("Nano3D service is closed.");
-            return;
+            catch (Exception ex)
+            {
+                RhinoApp.WriteLine("An error occurred while shutting down the Nano3D service: {0}", ex.Message);
+            }
         }
     }
 }
