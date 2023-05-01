@@ -13,6 +13,8 @@ cp ../../Nano3D/bin/Release/net48/Nano3D.rhp .
 
 Bring the plugin toolbar that is a Rhino User Interface (RUI) file. The RUI file must have the exact same name as the plugin RHP file. It must be located inside the folder containing the RHP file.
 
+To create a RUI file for the Rhino plugin, you can use the Rhino toolbar editor to create a custom toolbar that includes plugin commands.
+
 ## Dependencies
 
 Copy other dependencies like Nano3D service executable `nano3d-service.exe` next to `Nano3D.rhp`.
