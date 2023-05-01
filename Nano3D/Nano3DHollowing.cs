@@ -101,13 +101,21 @@ namespace Nano3D
 
             // Create a new object attributes with the desired name
             ObjectAttributes attributes = new ObjectAttributes();
-            attributes.Name = "Hollowed Mesh";
+            attributes.Name = "Hollowed: " + obj.Attributes.Name;
 
             // Add the mesh to the document with the specified attributes
             doc.Objects.AddMesh(meshOut, attributes);
 
             // Redraw the viewports to update the display
             doc.Views.Redraw();
+
+            if (doc.Objects.Delete(obj.Id, true))
+            {
+                // Good.
+            } else
+            {
+                RhinoApp.WriteLine("The {0} command couldn't delete the original object.", EnglishName);
+            }
 
             RhinoApp.WriteLine("The {0} command finished.", EnglishName);
             return Result.Success;
