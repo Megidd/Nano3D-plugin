@@ -60,7 +60,7 @@ namespace Nano3D
                     // Build a path to the user's staged RUI file.
                     var sb = new StringBuilder();
                     sb.Append(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
-                    sb.Append(@"\McNeel\Rhinoceros\6.0\UI\Plug-ins\");
+                    sb.Append(@"\McNeel\Rhinoceros\7.0\UI\Plug-ins\");
                     sb.AppendFormat("{0}.rui", Assembly.GetName().Name);
 
                     // Verify the RUI file exists.
