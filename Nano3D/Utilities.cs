@@ -38,19 +38,25 @@ namespace Nano3D
             return Convert.ToSingle(number);
         }
 
-        public static uint GetUint32FromUser(string prompt)
+        public static uint GetUint32FromUser(string prompt, uint defaultValue, uint lowerLimit, uint upperLimit)
         {
-            double doubleResult = 0;
-            uint result = 0;
+            double doubleResult = defaultValue;
+            uint result = defaultValue;
             while (true)
             {
-                var getNumberResult = RhinoGet.GetNumber(prompt, false, ref doubleResult);
+                var getNumberResult = RhinoGet.GetNumber(prompt, false, ref doubleResult, lowerLimit, upperLimit);
                 if (getNumberResult == Result.Cancel)
+                {
                     RhinoApp.WriteLine("Canceled by user.");
-                else if (getNumberResult == Result.Success && doubleResult >= 0)
+                    return defaultValue;
+                }
+                else if (getNumberResult == Result.Success)
                 {
                     result = (uint)doubleResult;
-                    return result;
+                    if (result < lowerLimit || result > upperLimit)
+                        RhinoApp.WriteLine("Input out of range.");
+                    else
+                        return result;
                 }
                 else
                     RhinoApp.WriteLine("Invalid input.");

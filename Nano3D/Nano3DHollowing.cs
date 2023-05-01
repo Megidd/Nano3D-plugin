@@ -66,7 +66,7 @@ namespace Nano3D
             Dictionary<string, string> fields = new Dictionary<string, string>();
             float thickness = Utilities.GetFloatFromUser(1.8, 0.0, 100.0, "Enter wall thickness for hollowing.");
             fields.Add("thickness", thickness.ToString());
-            uint precision = Utilities.GetUint32FromUser("Enter precision: VeryLow=1, Low=2, Medium=3, High=4, VeryHigh=5");
+            uint precision = Utilities.GetUint32FromUser("Enter precision: VeryLow=1, Low=2, Medium=3, High=4, VeryHigh=5", 3, 1, 5);
             switch (precision)
             {
                 case 1: case 2: case 3: case 4: case 5:
