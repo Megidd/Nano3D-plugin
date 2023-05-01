@@ -17,9 +17,12 @@ namespace Nano3D
 
         public static void WriteToLogFile(string text)
         {
+            var now = DateTime.Now;
+            var timestamp = now.ToString("MMM/dd/yyyy h:mm:ss tt");
+            var message = $"{timestamp}: {text}";
             using (var file = new StreamWriter(logfile, true))
             {
-                file.WriteLine(text);
+                file.WriteLine(message);
             }
         }
 

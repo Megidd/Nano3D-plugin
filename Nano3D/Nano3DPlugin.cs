@@ -54,7 +54,7 @@ namespace Nano3D
 
                 // Rhino3D would be closed, so the prompt cannot be read.
                 // Write the error to the log file to be able to read it after Rhino3D is closed.
-                Utilities.WriteToLogFile(ex.Message);
+                Utilities.WriteToLogFile("Exception while closing the plugin: "+ex.Message);
             }
         }
     }
