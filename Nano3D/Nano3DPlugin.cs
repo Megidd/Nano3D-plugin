@@ -51,6 +51,10 @@ namespace Nano3D
             catch (Exception ex)
             {
                 RhinoApp.WriteLine("An error occurred while shutting down the Nano3D service: {0}", ex.Message);
+
+                // Rhino3D would be closed, so the prompt cannot be read.
+                // Write the error to the log file to be able to read it after Rhino3D is closed.
+                Utilities.WriteToLogFile(ex.Message);
             }
         }
     }

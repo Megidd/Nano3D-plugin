@@ -4,6 +4,7 @@ using Rhino.Input;
 using Rhino.Input.Custom;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,16 @@ namespace Nano3D
 {
     internal class Utilities
     {
+        public const string logfile = "log.txt";
+
+        public static void WriteToLogFile(string text)
+        {
+            using (var file = new StreamWriter(logfile, true))
+            {
+                file.WriteLine(text);
+            }
+        }
+
         public static float GetFloatFromUser(double defaultValue, double lowerLimit, double upperLimit, string message)
         {
             // Create a GetNumber object
