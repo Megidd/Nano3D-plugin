@@ -80,7 +80,8 @@ namespace Nano3D
             }
             fields.Add("precision", precision.ToString());
 
-            fields.Add("infill", "false");
+            bool infill = Utilities.GetYesNoFromUser("Do you want infill for hollowed mesh?");
+            fields.Add("infill", infill ? "true" : "false");
 
             // Prepare HTTP form files.
             Dictionary<string, byte[]> files = new Dictionary<string, byte[]>();

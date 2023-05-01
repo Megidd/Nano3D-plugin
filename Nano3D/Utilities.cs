@@ -62,5 +62,20 @@ namespace Nano3D
                     RhinoApp.WriteLine("Invalid input.");
             }
         }
+
+        public static bool GetYesNoFromUser(string prompt)
+        {
+            bool boolResult = false;
+            while (true)
+            {
+                var getBoolResult = RhinoGet.GetBool(prompt, true, "Yes", "No", ref boolResult);
+                if (getBoolResult == Result.Cancel)
+                    RhinoApp.WriteLine("Canceled by user.");
+                else if (getBoolResult == Result.Success)
+                    return boolResult;
+                else
+                    RhinoApp.WriteLine("Invalid input.");
+            }
+        }
     }
 }
