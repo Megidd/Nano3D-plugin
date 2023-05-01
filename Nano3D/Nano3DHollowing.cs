@@ -99,7 +99,7 @@ namespace Nano3D
             Mesh meshOut = MeshHelper.CreateFromBuffers(vertexBufferOut, indexBufferOut);
 
             if (Utilities.debugMode)
-                MeshHelper.SaveBuffersAsStl(vertexBufferOut, indexBufferOut, "mesh-hollowed.stl");
+                MeshHelper.SaveAsStl(meshOut, "mesh-hollowed.stl");
 
             // Create a new object attributes with the desired name
             ObjectAttributes attributes = new ObjectAttributes();

@@ -96,6 +96,16 @@ namespace Nano3D
             return newMesh;
         }
 
+        public static void SaveAsStl(Mesh mesh, string fileName)
+        {
+            // Extract vertex buffer and index buffer.
+            float[] vertexBuffer;
+            int[] indexBuffer;
+            GetBuffers(mesh, out vertexBuffer, out indexBuffer);
+
+            SaveBuffersAsStl(vertexBuffer, indexBuffer, fileName);
+        }
+
         public static void SaveBuffersAsStl(float[] vertexBuffer, int[] indexBuffer, string fileName)
         {
             // Open the file for writing
