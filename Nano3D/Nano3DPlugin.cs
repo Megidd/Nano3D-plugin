@@ -31,15 +31,19 @@ namespace Nano3D
         protected override LoadReturnCode OnLoad(ref string errorMessage)
         {
             service = System.Diagnostics.Process.Start("nano3d-service.exe");
-            RhinoApp.WriteLine("Nano3D server is started.");
+            RhinoApp.WriteLine("Nano3D service is started.");
             return LoadReturnCode.Success;
         }
 
         protected override void OnShutdown()
         {
-            service.CloseMainWindow();
+            bool closed = service.CloseMainWindow();
+            if (!closed)
+            {
+                RhinoApp.WriteLine("Nano3D service window couldn't be closed.");
+            }
             service.Close();
-            RhinoApp.WriteLine("Nano3D server is closed.");
+            RhinoApp.WriteLine("Nano3D service is closed.");
             return;
         }
     }
