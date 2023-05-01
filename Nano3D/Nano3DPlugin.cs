@@ -1,6 +1,8 @@
 ﻿using Rhino;
 using Rhino.PlugIns;
 using System;
+using System.IO;
+using System.Text;
 
 namespace Nano3D
 {
@@ -28,11 +30,62 @@ namespace Nano3D
 
         private System.Diagnostics.Process service;
 
+        /// <summary>
+        /// Called when the plugin is being loaded.
+        /// </summary>
         protected override LoadReturnCode OnLoad(ref string errorMessage)
         {
+            // Pick a free port and run service listening on it.
             HttpHelper.port = HttpHelper.FindAvailablePort().ToString();
             service = System.Diagnostics.Process.Start("nano3d-service.exe", HttpHelper.port);
             RhinoApp.WriteLine("Nano3D service is started on port {0}.", HttpHelper.port);
+
+            // Finally, if you update your plugin,
+            // Rhino will not re-stage the RUI file because it already exists.
+            // You can get Rhino to re-stage the RUI file by deleting it in %APPDATA% and
+            // restarting which will cause Rhino to copy the file again since it no longer exists.
+            // This can be done programmatically by adding the following code to
+            // your plugin object’s OnLoad override.
+            // https://developer.rhino3d.com/guides/rhinocommon/create-deploy-plugin-toolbar/
+
+            // Get the version number of our plugin, that was last used, from our settings file.
+            var plugin_version = Settings.GetString("PlugInVersion", null);
+
+            if (!string.IsNullOrEmpty(plugin_version))
+            {
+                // If the version number of the plugin that was last used does not match the
+                // version number of this plugin, proceed.
+                if (0 != string.Compare(Version, plugin_version, StringComparison.OrdinalIgnoreCase))
+                {
+                    // Build a path to the user's staged RUI file.
+                    var sb = new StringBuilder();
+                    sb.Append(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData));
+                    sb.Append(@"\McNeel\Rhinoceros\6.0\UI\Plug-ins\");
+                    sb.AppendFormat("{0}.rui", Assembly.GetName().Name);
+
+                    // Verify the RUI file exists.
+                    var path = sb.ToString();
+                    if (File.Exists(path))
+                    {
+                        try
+                        {
+                            // Delete the RUI file.
+                            File.Delete(path);
+                        }
+                        catch
+                        {
+                            // ignored
+                        }
+                    }
+
+                    // Save the version number of this plugin to our settings file.
+                    Settings.SetString("PlugInVersion", Version);
+                }
+            }
+
+            // After successfully loading the plugin, if Rhino detects a plugin RUI
+            // file, it will automatically stage it, if it doesn't already exist.
+
             return LoadReturnCode.Success;
         }
 
