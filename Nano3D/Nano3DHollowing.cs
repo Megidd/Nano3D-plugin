@@ -63,9 +63,12 @@ namespace Nano3D
 
             byte[] data = MeshHelper.ProcessBuffers(indexBuffer, vertexBuffer);
 
+            // Prepare HTTP form text fields.
             Dictionary<string, string> fields = new Dictionary<string, string>();
+
             float thickness = Utilities.GetFloatFromUser(1.8, 0.0, 100.0, "Enter wall thickness for hollowing.");
             fields.Add("thickness", thickness.ToString());
+
             uint precision = Utilities.GetUint32FromUser("Enter precision: VeryLow=1, Low=2, Medium=3, High=4, VeryHigh=5", 3, 1, 5);
             switch (precision)
             {
@@ -76,9 +79,14 @@ namespace Nano3D
                     return Result.Failure;
             }
             fields.Add("precision", precision.ToString());
+
             fields.Add("infill", "false");
+
+            // Prepare HTTP form files.
             Dictionary<string, byte[]> files = new Dictionary<string, byte[]>();
             files.Add("input", data);
+
+            // Send HTTP request.
             byte[] response = HttpHelper.SendPostRequest(HttpHelper.UrlHollowing, fields, files);
             RhinoApp.WriteLine("HTTP response length: {0}.", response.Length);
 
