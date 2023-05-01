@@ -13,6 +13,8 @@ namespace Nano3D
 {
     internal class Utilities
     {
+        public const bool debugMode = false;
+
         public const string logfile = "Nano3D-log.txt";
 
         public static void WriteToLogFile(string text)
