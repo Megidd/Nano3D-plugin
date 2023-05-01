@@ -9,6 +9,10 @@ Copy built output of Visual Studio.
 cp ../../Nano3D/bin/Release/net48/Nano3D.rhp .
 ```
 
+## UI
+
+Bring the plugin toolbar that is a Rhino User Interface (RUI) file. The RUI file must have the exact same name as the plugin RHP file. It must be located inside the folder containing the RHP file.
+
 ## Dependencies
 
 Copy other dependencies like Nano3D service executable `nano3d-service.exe` next to `Nano3D.rhp`.
