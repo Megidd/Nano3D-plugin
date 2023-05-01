@@ -1,4 +1,5 @@
-﻿using Rhino.Commands;
+﻿using Rhino;
+using Rhino.Commands;
 using Rhino.Input;
 using Rhino.Input.Custom;
 using System;
@@ -35,6 +36,25 @@ namespace Nano3D
             double number = numberGetter.Number();
 
             return Convert.ToSingle(number);
+        }
+
+        public static uint GetUint32FromUser(string prompt)
+        {
+            double doubleResult = 0;
+            uint result = 0;
+            while (true)
+            {
+                var getNumberResult = RhinoGet.GetNumber(prompt, false, ref doubleResult);
+                if (getNumberResult == Result.Cancel)
+                    RhinoApp.WriteLine("Canceled by user.");
+                else if (getNumberResult == Result.Success && doubleResult >= 0)
+                {
+                    result = (uint)doubleResult;
+                    return result;
+                }
+                else
+                    RhinoApp.WriteLine("Invalid input.");
+            }
         }
     }
 }

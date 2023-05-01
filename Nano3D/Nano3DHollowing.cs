@@ -66,7 +66,16 @@ namespace Nano3D
             Dictionary<string, string> fields = new Dictionary<string, string>();
             float thickness = Utilities.GetFloatFromUser(1.8, 0.0, 100.0, "Enter wall thickness for hollowing.");
             fields.Add("thickness", thickness.ToString());
-            fields.Add("precision", "3");
+            uint precision = Utilities.GetUint32FromUser("Enter precision: VeryLow=1, Low=2, Medium=3, High=4, VeryHigh=5");
+            switch (precision)
+            {
+                case 1: case 2: case 3: case 4: case 5:
+                    break;
+                default:
+                    RhinoApp.WriteLine("Precision must be 1, 2, 3, 4, or 5 i.e. VeryLow=1, Low=2, Medium=3, High=4, VeryHigh=5");
+                    return Result.Failure;
+            }
+            fields.Add("precision", precision.ToString());
             fields.Add("infill", "false");
             Dictionary<string, byte[]> files = new Dictionary<string, byte[]>();
             files.Add("input", data);
