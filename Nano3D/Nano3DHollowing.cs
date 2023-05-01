@@ -104,7 +104,7 @@ namespace Nano3D
             attributes.Name = "Hollowed Mesh";
 
             // Add the mesh to the document with the specified attributes
-            doc.Objects.AddMesh(mesh, attributes);
+            doc.Objects.AddMesh(meshOut, attributes);
 
             // Redraw the viewports to update the display
             doc.Views.Redraw();
