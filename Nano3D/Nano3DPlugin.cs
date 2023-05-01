@@ -30,8 +30,9 @@ namespace Nano3D
 
         protected override LoadReturnCode OnLoad(ref string errorMessage)
         {
-            service = System.Diagnostics.Process.Start("nano3d-service.exe");
-            RhinoApp.WriteLine("Nano3D service is started.");
+            HttpHelper.port = HttpHelper.FindAvailablePort().ToString();
+            service = System.Diagnostics.Process.Start("nano3d-service.exe", HttpHelper.port);
+            RhinoApp.WriteLine("Nano3D service is started on port {0}.", HttpHelper.port);
             return LoadReturnCode.Success;
         }
 
