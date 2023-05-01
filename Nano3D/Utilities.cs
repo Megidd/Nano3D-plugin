@@ -68,7 +68,7 @@ namespace Nano3D
             bool boolResult = false;
             while (true)
             {
-                var getBoolResult = RhinoGet.GetBool(prompt, true, "Yes", "No", ref boolResult);
+                var getBoolResult = RhinoGet.GetBool(prompt, true, "No", "Yes", ref boolResult);
                 if (getBoolResult == Result.Cancel)
                     RhinoApp.WriteLine("Canceled by user.");
                 else if (getBoolResult == Result.Success)
