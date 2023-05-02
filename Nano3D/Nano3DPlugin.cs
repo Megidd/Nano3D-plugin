@@ -40,6 +40,34 @@ namespace Nano3D
             service = System.Diagnostics.Process.Start("nano3d-service.exe", HttpHelper.port);
             RhinoApp.WriteLine("Nano3D service is started on port {0}.", HttpHelper.port);
 
+            restageRUI();
+
+            return LoadReturnCode.Success;
+        }
+
+        protected override void OnShutdown()
+        {
+            try
+            {
+                bool closed = service.CloseMainWindow();
+                if (!closed)
+                {
+                    RhinoApp.WriteLine("Nano3D service window couldn't be closed.");
+                }
+                service.Close();
+                RhinoApp.WriteLine("Nano3D service is closed.");
+            }
+            catch (Exception ex)
+            {
+                RhinoApp.WriteLine("An error occurred while shutting down the Nano3D service: {0}", ex.Message);
+
+                // Rhino3D would be closed, so the prompt cannot be read.
+                // Write the error to the log file to be able to read it after Rhino3D is closed.
+                Utilities.WriteToLogFile("Exception while closing the plugin: "+ex.Message);
+            }
+        }
+
+        private void restageRUI() {
             // Finally, if you update your plugin,
             // Rhino will not re-stage the RUI file because it already exists.
             // You can get Rhino to re-stage the RUI file by deleting it in %APPDATA% and
@@ -50,6 +78,8 @@ namespace Nano3D
 
             // Get the version number of our plugin, that was last used, from our settings file.
             var plugin_version = Settings.GetString("PlugInVersion", null);
+            RhinoApp.WriteLine("Nano3D plugin version last used: {0}", plugin_version);
+            RhinoApp.WriteLine("Nano3D plugin version currently: {0}", Version);
 
             if (!string.IsNullOrEmpty(plugin_version))
             {
@@ -85,30 +115,6 @@ namespace Nano3D
 
             // After successfully loading the plugin, if Rhino detects a plugin RUI
             // file, it will automatically stage it, if it doesn't already exist.
-
-            return LoadReturnCode.Success;
-        }
-
-        protected override void OnShutdown()
-        {
-            try
-            {
-                bool closed = service.CloseMainWindow();
-                if (!closed)
-                {
-                    RhinoApp.WriteLine("Nano3D service window couldn't be closed.");
-                }
-                service.Close();
-                RhinoApp.WriteLine("Nano3D service is closed.");
-            }
-            catch (Exception ex)
-            {
-                RhinoApp.WriteLine("An error occurred while shutting down the Nano3D service: {0}", ex.Message);
-
-                // Rhino3D would be closed, so the prompt cannot be read.
-                // Write the error to the log file to be able to read it after Rhino3D is closed.
-                Utilities.WriteToLogFile("Exception while closing the plugin: "+ex.Message);
-            }
         }
     }
 }
