@@ -9,29 +9,40 @@
   </extend_rhino_menus>
   <menus />
   <tool_bar_groups>
-    <tool_bar_group guid="2967cff9-4d02-4ad3-bf1d-d4cf5512fd77" dock_bar_guid32="00000000-0000-0000-0000-000000000000" dock_bar_guid64="4277bae7-c2ea-4c01-8416-e9b2bced6776" active_tool_bar_group="1763bc0c-caf9-4d92-830a-52f486e14170" single_file="False" hide_single_tab="False" point_floating="543,145">
+    <tool_bar_group guid="ef58b6aa-84e5-4520-9388-263933519406" dock_bar_guid32="00000000-0000-0000-0000-000000000000" dock_bar_guid64="e08b871e-e154-4bde-b421-f49f0acc9a9b" active_tool_bar_group="a1a0e5f7-0483-4358-9633-1672ed955432" single_file="False" hide_single_tab="False" point_floating="45,163">
       <text>
         <locale_1033>Toolbar group</locale_1033>
       </text>
-      <tool_bar_group_item guid="1763bc0c-caf9-4d92-830a-52f486e14170" major_version="1" minor_version="1">
+      <tool_bar_group_item guid="a1a0e5f7-0483-4358-9633-1672ed955432" major_version="1" minor_version="1">
         <text>
-          <locale_1033>ToolBar group item</locale_1033>
+          <locale_1033>Toolbar</locale_1033>
         </text>
-        <tool_bar_id>981fac77-c7e5-4fed-88fb-5b00be77c471</tool_bar_id>
+        <tool_bar_id>c4e86792-f348-446c-98ce-e5ee4d50c5e7</tool_bar_id>
       </tool_bar_group_item>
-      <dock_bar_info dpi_scale="100" dock_bar="False" docking="True" horz="False" visible="True" floating="False" mru_float_style="8192" bar_id="59461" mru_width="32767" point_pos="0,172" float_point="543,145" rect_mru_dock_pos="0,172,1304,209" dock_location_u="59419" dock_location="top" float_size="225,146" />
+      <dock_bar_info dpi_scale="100" dock_bar="False" docking="True" horz="False" visible="True" floating="False" mru_float_style="8192" bar_id="59468" mru_width="32767" point_pos="0,172" float_point="45,163" rect_mru_dock_pos="0,172,1304,209" dock_location_u="59419" dock_location="top" float_size="198,174" />
     </tool_bar_group>
   </tool_bar_groups>
   <tool_bars>
-    <tool_bar guid="981fac77-c7e5-4fed-88fb-5b00be77c471">
+    <tool_bar guid="c4e86792-f348-446c-98ce-e5ee4d50c5e7" bitmap_id="0a1b6c8a-39f2-4085-9b20-4e0c5750a517" item_display_style="control_and_text">
       <text>
         <locale_1033>Toolbar</locale_1033>
       </text>
-      <tool_bar_item guid="a281dd10-46ad-4600-8eb3-48e5f7e66662" button_display_mode="control_and_text" display_style_from_parent="False">
+      <tool_bar_item guid="63b5e0fd-a1d6-4642-9f29-5a6b3e431bda">
+        <text>
+          <locale_1033>Toolbar item 00</locale_1033>
+        </text>
+        <left_macro_id>cb641f5b-7043-4bea-9f91-b80a5acefa22</left_macro_id>
+      </tool_bar_item>
+      <tool_bar_item guid="ec17d678-36f9-4a99-a14c-7840419eb5da">
+        <text>
+          <locale_1033>Toolbar item 01</locale_1033>
+        </text>
+        <left_macro_id>02617d8e-f86d-4a4c-b4a0-1bae238ef62a</left_macro_id>
+      </tool_bar_item>
+      <tool_bar_item guid="ab3186ca-dec4-4318-b269-1f8104cc58eb">
         <text>
           <locale_1033>Toolbar item</locale_1033>
         </text>
-        <left_macro_id>cb641f5b-7043-4bea-9f91-b80a5acefa22</left_macro_id>
       </tool_bar_item>
     </tool_bar>
   </tool_bars>
@@ -48,37 +59,78 @@
       </button_text>
       <script>Nano3DHollowing</script>
     </macro_item>
+    <macro_item guid="02617d8e-f86d-4a4c-b4a0-1bae238ef62a" bitmap_id="54b73a30-c914-491f-a058-7ea01fc73845">
+      <text>
+        <locale_1033>Slicing</locale_1033>
+      </text>
+      <tooltip>
+        <locale_1033>Slicing one or more meshes and getting the output slices.</locale_1033>
+      </tooltip>
+      <help_text>
+        <locale_1033>Slicing</locale_1033>
+      </help_text>
+      <button_text>
+        <locale_1033>Slicing</locale_1033>
+      </button_text>
+      <menu_text>
+        <locale_1033>Slicing</locale_1033>
+      </menu_text>
+      <script>Nano3DSlicing</script>
+    </macro_item>
   </macros>
   <bitmaps>
     <small_bitmap item_width="16" item_height="16">
       <bitmap_item guid="0a7d4a90-ce2b-464f-a0d9-3b4461081ad0" index="0" />
-      <bitmap>iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAALGPC/xhBQAAAAlwSFlz
-AAAOwAAADsABataJCQAAABNJREFUOE9jGAWjYBSMAjBgYAAABBAAAadEfGMAAAAASUVORK5CYIIA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</bitmap>
+      <bitmap_item guid="54b73a30-c914-491f-a058-7ea01fc73845" index="1" />
+      <bitmap_item guid="0a1b6c8a-39f2-4085-9b20-4e0c5750a517" index="2" />
+      <bitmap>iVBORw0KGgoAAAANSUhEUgAAABAAAAAwCAYAAAAYX/pXAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAImSURBVEhL7dJLaBNRFAbg8bHUpQi1KW0tbWqi
+bUxqHqUJxhSNGGg0KYLuCy7FfXUhigjFR6V5p3nNJC2NiakLN4qLLFyIDwQrtRobJ2lCJjN3EhAk
+c5zARSixadzPtzr3cP57F+cSEolEIpFIJJ1wZviruNzdpRSvwOVfjhT/2v4U2fGxPWemrnZmauTl
+F/Uu3CJsK9XQ+USlbl0qa3CrPUeavz79rMY60uja7CzsPRsv35ykSmCOFegJMi/DY20A7HGk6qv2
+dA1sSZQ1U6V7pnABJkI06IM/3xm85YN4cmeO5+jQhSRHW1d4mFzmwRgpCVrfD9B4cqBybaw6E7Cv
+z1M8LPOwMzjS6lySP2NZ5hrmJfGCBILxWBXGA5uCcn4dhue/BmQu5nOPh2kc9VancKTV6QR/2xhH
+YKAQaGMINFEEFqosjIUZkLkZ6HFVBHmQY+WL3CCObGd6Cft1JMqeEsPqCIKRMAfKRQ5GQhwMuotw
+5EEOlIGKoIqwH48ltg7g2HZastp7MsJVm2GFGBZfhAE/C30+Frof08Kwly5qYmhDR3F3cKTVcX/5
+lsJTEIYW8sLAo29C79wXofv+p/dddz9ME+Kq8di/qQPFqRNe+pfCtQnyJ9+h/+H62/65tYvNdeOR
+nY1FmSuq4NbvUX8RlO78m6GFnE38KLsHm3QUmtHGmIY6VMqO+mgrbndGT3I3DCT/ShdlLbjVOT2F
+jLo4MuHjfyCIP0I5FWI3siDjAAAAAElFTkSuQmCC</bitmap>
     </small_bitmap>
     <normal_bitmap item_width="24" item_height="24">
       <bitmap_item guid="0a7d4a90-ce2b-464f-a0d9-3b4461081ad0" index="0" />
-      <bitmap>iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAAAlwSFlz
-AAAOwAAADsABataJCQAAAlBJREFUSEu1lc9rE0EUx7NbskmqNjGxGzXV1ighqQdtrdI2pcgKBT3Y
-VltowYOCVBA8iL0oKr3oST14Ebx4DxH0pP4VHjz2L2j98S885zubmZ2ZvKQeauBDdr7fNy+zb2Ze
-UuJD/xlW3E9Y0SJTOk6Vhds0OFKT47EbD6l47jL5Qa4rloEVJcOXrtGVj380hca01C+8+KK1+Q/b
-lCke65prwIo0++57krz9ixr331KQH5ZeOLNIk1ufE18wuvSgK0cHVqSB3EGZuDA+w/qK6tpjar7/
-wXodbAErR3JX/xeOzq/SyNW7rp4MdM3Fyk0dpA+VaOrlN5oTq63fe0Mpz7P8bHhSl8vzfNNLglSA
-W5aotas9k9O3nltxWAD0+sYrU48fskcq8URn9VHrp5XUJZy+rmPTQyWtGznih8rCHWngtCgNZVET
-+qHigdKMfYyNAyfqdPhsk4JCWQerV94Lcz/ytSmZxw+ySosNDmwol9AlEKXh5neIH8ZuPhIr/krl
-2SVt4rRwCV1UPJh41pZ5jErEBnoLgie3PulgvLqbjEPHC5Tm+fqoxgYaFzfh1Mqm1jn8dEbH5msX
-pRbZJzFJhsaFgOr6EzNAHkUzqcJMDpAYerm5bOpJALoiAnr2FlEy1fBcBjKiAuIHcCkdzxrQ6GLS
-FXH9Ta8XSC6/s4Pywjq+NdCgceFtcCJwQ7kY1Dxq/5Yr79MgWVF2RVVrxdCZCemdf9qy9Ki10+9P
-hxUl6Ir1jdc6kfuPhk0Nm8m96QErdoESqOsfFELznO8FK+4TKfoL72JnJKwbFs4AAAAASUVORK5C
-YII=</bitmap>
+      <bitmap_item guid="54b73a30-c914-491f-a058-7ea01fc73845" index="1" />
+      <bitmap_item guid="0a1b6c8a-39f2-4085-9b20-4e0c5750a517" index="2" />
+      <bitmap>iVBORw0KGgoAAAANSUhEUgAAABgAAABICAYAAADs+TUPAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAASfSURBVFhH7Zffb1RFFMd3t+6vtnZbtt3Sbmlr
+1XapBujaFtilpXtRQIwWROMvHpQgJCTEEDAgUYMmYEL4kZiYAipGRAqlJMqL+mJM9NWooAY1RqNB
+RcB/4Thn7s65M3PPFmjK253kk733e86cmTs/zsyGRIFbDCvOJKxoEE+3Qnb5s1Dd1i3fOx/dCrPm
+j0AklvT5MrCipGlwFSw7+x9RP3eR1O/b8wlpw+/9AvFZLb66GqwIhbFvvOCTV2Hu5jchlmqStszi
+Ucjv/tizCzpWb/HFKMOKUJWslYHrexezdkXXky9B8egF1lbGFLDnGNzWb4TZw49D24MbbN17oTEX
+Pdd1JHp7Gvr3fgZLRG9zmw5CKBw27IlMOw1XOBzRbZ6TcrCHxZn4l2w6d6571fDDDqCe27hf192H
+RGPWrWj13pm4YgS1ySx6hHyjdWnStRjuQ3b5c9KAq0VpOCyqwlQof0Rp2jy6hpo5OWi4pwix+mZy
+Vp98PfT5SHX3yziRWEJproEDJ5QLaBMTQ8PVL+M+dK7dJnr8KTQXVpMRVwsX0Eb5I32vTMo42ki4
+Bswt6Jzf/RE546fbwTjIX6C0cISWqmvAxMVVuOOx7aRzRKJx8k11D0jNMVeiFwwTFzp0PbVLd5BL
+UQ+q0IMjGBj15uIaXfccMCuiQ8XcIoZMJTybqrgYAdEAbkrLZrxAx6iXFXH767ZKYHD5m6iWG9ay
+Gy8EJi78GlwRuEM5HxxzZ/Ka7PkUCZIVZVZUY62ou6tP2ha8PGHozsTlqQ4dVpRgVsxtPECB7BMN
+JzVT9PZNBVjRBw6B2v6x+oy+zq8HK84krFiRyG1RSDZ3sLYKsCILHjBqPgb3f8H6MLCiQThSBUPv
+XqTgCufMFajtvJeto8GKRNcTO32BbTCD2me0BivKVbPk7R/YgCxiw6V6BrhYPgGyK9zjczrM23HC
+/hovsOz1Oz+yFW8K8TW17b1mAyr3zBzXvAYG9n3OOEyf0vhfKrjbAJIpjLLONwte7bXgXgOIu3Km
+Nwelk5fE7aJRxkk0zaGYAvdBP/6yK9azQSqh97p3y5jUSqf+VloIGvtXShGPu7q789Igv+bo90Yg
+m6Uf/A7R2gbpX9PWAyMf/km29oc3ew0gCw9+ScZ5Lx5XRuhY84LQxKlVtim6179BPj3P7yO9ePg7
+cXTWkE1AD9DiPC3XMDo6Z67KXkmb2DhqVw+//6u4s7q91q/sSKe44ih/FVNAD4Q+0fnXzlGF9IJl
+ro9479ng9Xrp8d9oDpPlRrULnBu0NH4J8q+LYOX3dN/9FACJN8yWOn6+ruMQqjrzd42TjvNR1vHa
+WCJD6dQ/kGzpkkbsFa4GZSseOU/PIyf+oLGO1qQMv1ZnnQruNoBUxauh8NbX5CRTcNnWNPgQ6Qj+
+8VM2TG5KHzr2M60qDePFyEnO6cvyfwPqeLnCU0xtIvzFlKB821b6/vwp/CLe0BYe+ooqYy/1W0Ru
+k3eVGTr2k70sbVhR0uo8Q4GQxvwDMHLS20xM3uFgRYPC2LdGQ3g+4+2C82VgRR/yT6LYhPZf1xsg
+KEEJSlCCEpSgBCUooVDof93GljR53y4tAAAAAElFTkSuQmCC</bitmap>
     </normal_bitmap>
     <large_bitmap item_width="32" item_height="32">
       <bitmap_item guid="0a7d4a90-ce2b-464f-a0d9-3b4461081ad0" index="0" />
-      <bitmap>iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABGdBTUEAALGPC/xhBQAAAAlwSFlz
-AAAOwAAADsABataJCQAAABpJREFUWEftwQEBAAAAgiD/r25IQAAAAMC5GhAgAAGdeElDAAAAAElF
-TkSuQmCCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+      <bitmap_item guid="54b73a30-c914-491f-a058-7ea01fc73845" index="1" />
+      <bitmap_item guid="0a1b6c8a-39f2-4085-9b20-4e0c5750a517" index="2" />
+      <bitmap>iVBORw0KGgoAAAANSUhEUgAAACAAAABgCAYAAAB8InCYAAAAAXNSR0IArs4c6QAAAARnQU1BAACx
+jwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAiSURBVGhD7cEBAQAAAIIg/69uSEAAAAAAAAAA
+AAAAAMC5GjBgAAFtDxevAAAAAElFTkSuQmCCAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</bitmap>
     </large_bitmap>
