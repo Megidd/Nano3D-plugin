@@ -82,7 +82,7 @@ namespace Nano3D
         /// <param name="fields"></param>
         /// <param name="files"></param>
         /// <returns></returns>
-        public static byte[] SendPostRequest(string url, Dictionary<string, string> fields, Dictionary<string, byte[]> files)
+        public static async Task<byte[]> SendPostRequest(string url, Dictionary<string, string> fields, Dictionary<string, byte[]> files)
         {
             using (HttpClient httpClient = new HttpClient())
             using (MultipartFormDataContent form = new MultipartFormDataContent())
@@ -103,13 +103,11 @@ namespace Nano3D
                         form.Add(new ByteArrayContent(file.Value), file.Key, file.Key);
                     }
                 }
+
                 // Send the request and get the response
-                HttpResponseMessage response = httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Post, url)
-                {
-                    Content = form
-                }).Result;
+                HttpResponseMessage response = await httpClient.PostAsync(url, form);
                 // Read the response as a byte array
-                return response.Content.ReadAsByteArrayAsync().Result;
+                return await response.Content.ReadAsByteArrayAsync();
             }
         }
     }

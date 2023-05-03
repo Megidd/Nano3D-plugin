@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Rhino;
 using Rhino.Commands;
 using Rhino.DocObjects;
@@ -88,38 +89,54 @@ namespace Nano3D
             Dictionary<string, byte[]> files = new Dictionary<string, byte[]>();
             files.Add("input", data);
 
-            // Send HTTP request.
-            byte[] response = HttpHelper.SendPostRequest(HttpHelper.UrlHollowing, fields, files);
-            RhinoApp.WriteLine("HTTP response length: {0}.", response.Length);
+            // Send HTTP request asynchronously.
+            Task<byte[]> task = HttpHelper.SendPostRequest(HttpHelper.UrlHollowing, fields, files);
 
-            int[] indexBufferOut;
-            float[] vertexBufferOut;
-            MeshHelper.UnpackBuffers(response, out indexBufferOut, out vertexBufferOut);
-            // Use the returned index and vertex buffers to create a new mesh.
-            Mesh meshOut = MeshHelper.CreateFromBuffers(vertexBufferOut, indexBufferOut);
-
-            if (Utilities.debugMode)
-                MeshHelper.SaveAsStl(meshOut, "mesh-hollowed.stl");
-
-            // Create a new object attributes with the desired name
-            ObjectAttributes attributes = new ObjectAttributes();
-            attributes.Name = "Hollowed: " + obj.Attributes.Name;
-
-            // Add the mesh to the document with the specified attributes
-            doc.Objects.AddMesh(meshOut, attributes);
-
-            // Redraw the viewports to update the display
-            doc.Views.Redraw();
-
-            if (doc.Objects.Delete(obj.Id, true))
+            task.ContinueWith(responseTask =>
             {
-                // Good.
-            } else
-            {
-                RhinoApp.WriteLine("The {0} command couldn't delete the original object.", EnglishName);
-            }
+                if (responseTask.Status == TaskStatus.RanToCompletion)
+                {
+                    byte[] response = responseTask.Result;
 
-            RhinoApp.WriteLine("The {0} command finished.", EnglishName);
+                    RhinoApp.WriteLine("HTTP response length: {0}.", response.Length);
+
+                    int[] indexBufferOut;
+                    float[] vertexBufferOut;
+                    MeshHelper.UnpackBuffers(response, out indexBufferOut, out vertexBufferOut);
+                    // Use the returned index and vertex buffers to create a new mesh.
+                    Mesh meshOut = MeshHelper.CreateFromBuffers(vertexBufferOut, indexBufferOut);
+
+                    if (Utilities.debugMode)
+                        MeshHelper.SaveAsStl(meshOut, "mesh-hollowed.stl");
+
+                    // Create a new object attributes with the desired name
+                    ObjectAttributes attributes = new ObjectAttributes();
+                    attributes.Name = "Hollowed: " + obj.Attributes.Name;
+
+                    // Add the mesh to the document with the specified attributes
+                    doc.Objects.AddMesh(meshOut, attributes);
+
+                    // Redraw the viewports to update the display
+                    doc.Views.Redraw();
+
+                    if (doc.Objects.Delete(obj.Id, true))
+                    {
+                        // Good.
+                    }
+                    else
+                    {
+                        RhinoApp.WriteLine("The {0} command couldn't delete the original object.", EnglishName);
+                    }
+
+                    RhinoApp.WriteLine("The {0} command finished.", EnglishName);
+                }
+                else if (responseTask.Status == TaskStatus.Faulted)
+                {
+                    RhinoApp.WriteLine("HTTP request failed: {0}", responseTask.Exception.Message);
+                }
+            }, TaskScheduler.FromCurrentSynchronizationContext());
+
+            Utilities.PrintWaitMessage(EnglishName);
             return Result.Success;
         }
     }

@@ -13,7 +13,7 @@ namespace Nano3D
 {
     internal class Utilities
     {
-        public const bool debugMode = false;
+        public const bool debugMode = true;
 
         public const string logfile = "Nano3D-log.txt";
 
@@ -92,6 +92,15 @@ namespace Nano3D
                 else
                     RhinoApp.WriteLine("Invalid input.");
             }
+        }
+
+        public static void PrintWaitMessage(string commandName)
+        {
+            RhinoApp.WriteLine("...");
+            RhinoApp.WriteLine("The {0} command is running...", commandName);
+            RhinoApp.WriteLine("Please wait...");
+            RhinoApp.WriteLine("The output will be available when {0} command finishes...", commandName);
+            RhinoApp.WriteLine("...");
         }
     }
 }
