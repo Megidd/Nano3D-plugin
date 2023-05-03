@@ -94,39 +94,46 @@ namespace Nano3D
             {
                 if (responseTask.Status == TaskStatus.RanToCompletion)
                 {
-                    byte[] response = responseTask.Result;
-
-                    RhinoApp.WriteLine("HTTP response length: {0}.", response.Length);
-
-                    int[] indexBufferOut;
-                    float[] vertexBufferOut;
-                    MeshHelper.UnpackBuffers(response, out indexBufferOut, out vertexBufferOut);
-                    // Use the returned index and vertex buffers to create a new mesh.
-                    Mesh meshOut = MeshHelper.CreateFromBuffers(vertexBufferOut, indexBufferOut);
-
-                    if (Utilities.debugMode)
-                        MeshHelper.SaveAsStl(meshOut, "mesh-hollowed.stl");
-
-                    // Create a new object attributes with the desired name
-                    ObjectAttributes attributes = new ObjectAttributes();
-                    attributes.Name = "Hollowed: " + obj.Attributes.Name;
-
-                    // Add the mesh to the document with the specified attributes
-                    doc.Objects.AddMesh(meshOut, attributes);
-
-                    // Redraw the viewports to update the display
-                    doc.Views.Redraw();
-
-                    if (doc.Objects.Delete(obj.Id, true))
+                    try
                     {
-                        // Good.
-                    }
-                    else
-                    {
-                        RhinoApp.WriteLine("The {0} command couldn't delete the original object.", EnglishName);
-                    }
+                        byte[] response = responseTask.Result;
 
-                    RhinoApp.WriteLine("The {0} command finished.", EnglishName);
+                        RhinoApp.WriteLine("HTTP response length: {0}.", response.Length);
+
+                        int[] indexBufferOut;
+                        float[] vertexBufferOut;
+                        MeshHelper.UnpackBuffers(response, out indexBufferOut, out vertexBufferOut);
+                        // Use the returned index and vertex buffers to create a new mesh.
+                        Mesh meshOut = MeshHelper.CreateFromBuffers(vertexBufferOut, indexBufferOut);
+
+                        if (Utilities.debugMode)
+                            MeshHelper.SaveAsStl(meshOut, "mesh-hollowed.stl");
+
+                        // Create a new object attributes with the desired name
+                        ObjectAttributes attributes = new ObjectAttributes();
+                        attributes.Name = "Hollowed: " + obj.Attributes.Name;
+
+                        // Add the mesh to the document with the specified attributes
+                        doc.Objects.AddMesh(meshOut, attributes);
+
+                        // Redraw the viewports to update the display
+                        doc.Views.Redraw();
+
+                        if (doc.Objects.Delete(obj.Id, true))
+                        {
+                            // Good.
+                        }
+                        else
+                        {
+                            RhinoApp.WriteLine("The {0} command couldn't delete the original object.", EnglishName);
+                        }
+
+                        RhinoApp.WriteLine("The {0} command finished.", EnglishName);
+                    }
+                    catch (Exception ex)
+                    {
+                        RhinoApp.WriteLine("An error occurred while running the command {0}: {1}", EnglishName, ex.Message);
+                    }
                 }
                 else if (responseTask.Status == TaskStatus.Faulted)
                 {
