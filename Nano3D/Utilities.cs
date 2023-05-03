@@ -96,11 +96,9 @@ namespace Nano3D
 
         public static void PrintWaitMessage(string commandName)
         {
-            RhinoApp.WriteLine("...");
             RhinoApp.WriteLine("The {0} command is running...", commandName);
             RhinoApp.WriteLine("Please wait...");
             RhinoApp.WriteLine("The output will be available when {0} command finishes...", commandName);
-            RhinoApp.WriteLine("...");
         }
     }
 }
