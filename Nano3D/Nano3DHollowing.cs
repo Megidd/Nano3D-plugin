@@ -33,8 +33,6 @@ namespace Nano3D
         {
             RhinoApp.WriteLine("The {0} command received the document.", EnglishName);
 
-            // TODO: complete command.
-
             RhinoObject obj = MeshHelper.GetSingle();
             if (null == obj || obj.ObjectType != ObjectType.Mesh)
             {
