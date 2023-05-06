@@ -136,6 +136,8 @@ namespace Nano3D
 
                         RhinoApp.WriteLine("Does output mesh have invalid vertex indices? {0}", hasInvalidVertexIndices);
 
+                        MeshHelper.PrintFaceVertices(meshOut, 9203); // Index of the face to print
+
                         // If the mesh is not valid, you can handle the error.
                         if (!isValid || hasInvalidVertexIndices)
                         {
