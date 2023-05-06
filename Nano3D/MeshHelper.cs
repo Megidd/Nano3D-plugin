@@ -260,15 +260,15 @@ namespace Nano3D
         {
             if (faceIndex >= mesh.Faces.Count)
             {
-                Console.WriteLine("Invalid face index.");
+                RhinoApp.WriteLine("Invalid face index.");
                 return;
             }
 
             MeshFace face = mesh.Faces[faceIndex];
-            Console.WriteLine("Vertices of face {0}:", faceIndex);
-            Console.WriteLine("Vertex A: {0}", mesh.Vertices[face.A]);
-            Console.WriteLine("Vertex B: {0}", mesh.Vertices[face.B]);
-            Console.WriteLine("Vertex C: {0}", mesh.Vertices[face.C]);
+            RhinoApp.WriteLine("Vertices of face {0}:", faceIndex);
+            RhinoApp.WriteLine("Vertex A: {0}", mesh.Vertices[face.A]);
+            RhinoApp.WriteLine("Vertex B: {0}", mesh.Vertices[face.B]);
+            RhinoApp.WriteLine("Vertex C: {0}", mesh.Vertices[face.C]);
         }
     }
 }
