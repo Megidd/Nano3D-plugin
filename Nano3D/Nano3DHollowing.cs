@@ -114,7 +114,8 @@ namespace Nano3D
                         if (Utilities.debugMode)
                             MeshHelper.SaveAsStl(meshOut, "mesh-hollowed.stl");
 
-                        MeshHelper.PrintFaceVertices(meshOut, 9203); // Index of the face to print
+                        /// To debug warnings about a specific face:
+                        //MeshHelper.PrintFaceVertices(meshOut, 9203); // Index of the face to print
 
                         // Run the CheckValidity method on the mesh.
                         MeshCheckParameters parameters = new MeshCheckParameters();
