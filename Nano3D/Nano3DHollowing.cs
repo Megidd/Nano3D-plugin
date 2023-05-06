@@ -132,11 +132,16 @@ namespace Nano3D
 
                         RhinoApp.WriteLine("Is output mesh valid? {0}", isValid);
 
+                        bool hasInvalidVertexIndices = MeshHelper.HasInvalidVertexIndices(meshOut);
+
+                        RhinoApp.WriteLine("Does output mesh have invalid vertex indices? {0}", hasInvalidVertexIndices);
+
                         // If the mesh is not valid, you can handle the error.
-                        if (!isValid)
+                        if (!isValid || hasInvalidVertexIndices)
                         {
                             // Handle the error here.
                             RhinoApp.WriteLine("Total cound of disjoint meshes: {0}", parameters.DisjointMeshCount);
+                            RhinoApp.WriteLine("Output mesh cannot be added to scene due to being invalid");
                         }
                         else
                         {

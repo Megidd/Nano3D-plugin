@@ -234,5 +234,26 @@ namespace Nano3D
                 vertexBuffer[i] = BitConverter.ToSingle(data, sizeof(int) * 2 + indexBufferLength + i * sizeof(float));
             }
         }
+
+        public static bool HasInvalidVertexIndices(Mesh mesh)
+        {
+            // Check each face in the mesh
+            for (int i = 0; i < mesh.Faces.Count; i++)
+            {
+                MeshFace face = mesh.Faces[i];
+
+                // Check each vertex index in the face
+                if (face.A < 0 || face.A >= mesh.Vertices.Count ||
+                    face.B < 0 || face.B >= mesh.Vertices.Count ||
+                    face.C < 0 || face.C >= mesh.Vertices.Count)
+                {
+                    // If any vertex index is invalid, return true
+                    return true;
+                }
+            }
+
+            // If all face vertex indices are valid, return false
+            return false;
+        }
     }
 }
