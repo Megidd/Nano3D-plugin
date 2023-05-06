@@ -103,8 +103,13 @@ namespace Nano3D
                         int[] indexBufferOut;
                         float[] vertexBufferOut;
                         MeshHelper.UnpackBuffers(response, out indexBufferOut, out vertexBufferOut);
+
+                        // To avoid warnings:
+                        // https://discourse.mcneel.com/t/warning-new-mesh-is-not-valid-on-mesh-m-f-vi-has-invalid-vertex-indices/159312/16?u=megidd_git
+                        int[] newIndexBufferOut = MeshHelper.RemoveZeroAreaTriangles(indexBufferOut, vertexBufferOut);
+
                         // Use the returned index and vertex buffers to create a new mesh.
-                        Mesh meshOut = MeshHelper.CreateFromBuffers(vertexBufferOut, indexBufferOut);
+                        Mesh meshOut = MeshHelper.CreateFromBuffers(vertexBufferOut, newIndexBufferOut);
 
                         if (Utilities.debugMode)
                             MeshHelper.SaveAsStl(meshOut, "mesh-hollowed.stl");

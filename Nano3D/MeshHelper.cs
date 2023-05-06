@@ -274,5 +274,41 @@ namespace Nano3D
             RhinoApp.WriteLine("Vertex B: {0}", mesh.Vertices[face.B]);
             RhinoApp.WriteLine("Vertex C: {0}", mesh.Vertices[face.C]);
         }
+
+        public static int[] RemoveZeroAreaTriangles(int[] indexBuffer, float[] vertexBuffer)
+        {
+            // Remove the zero-area triangles from the index buffer
+            List<int> newIndexBuffer = new List<int>();
+            for (int i = 0; i < indexBuffer.Length; i += 3)
+            {
+                // Get the vertex positions for the three vertices of the triangle
+                int indexA = indexBuffer[i];
+                int indexB = indexBuffer[i + 1];
+                int indexC = indexBuffer[i + 2];
+                Vector3d vertexA = new Vector3d(vertexBuffer[indexA * 3], vertexBuffer[indexA * 3 + 1], vertexBuffer[indexA * 3 + 2]);
+                Vector3d vertexB = new Vector3d(vertexBuffer[indexB * 3], vertexBuffer[indexB * 3 + 1], vertexBuffer[indexB * 3 + 2]);
+                Vector3d vertexC = new Vector3d(vertexBuffer[indexC * 3], vertexBuffer[indexC * 3 + 1], vertexBuffer[indexC * 3 + 2]);
+
+                // Compute the cross product of two edges of the triangle
+                Vector3d edge1 = vertexB - vertexA;
+                Vector3d edge2 = vertexC - vertexA;
+                Vector3d crossProduct = Vector3d.CrossProduct(edge1, edge2);
+
+                // Check if the cross product has zero length
+                if (crossProduct.Length < RhinoMath.ZeroTolerance)
+                {
+                    // If the cross product has zero length, skip this triangle
+                    continue;
+                }
+
+                // Add the indices of the non-zero-area triangle to the new index buffer
+                newIndexBuffer.Add(indexA);
+                newIndexBuffer.Add(indexB);
+                newIndexBuffer.Add(indexC);
+            }
+
+            // Convert the new index buffer to an array and return it
+            return newIndexBuffer.ToArray();
+        }
     }
 }
