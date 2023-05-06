@@ -275,6 +275,8 @@ namespace Nano3D
             RhinoApp.WriteLine("Vertex C: {0}", mesh.Vertices[face.C]);
         }
 
+        // To resolve a problem with the output mesh of algorithms:
+        // https://discourse.mcneel.com/t/warning-new-mesh-is-not-valid-on-mesh-m-f-vi-has-invalid-vertex-indices/159312/17?u=megidd_git
         public static int[] RemoveZeroAreaTriangles(int[] indexBuffer, float[] vertexBuffer)
         {
             // Remove the zero-area triangles from the index buffer
