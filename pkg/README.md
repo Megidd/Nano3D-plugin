@@ -34,8 +34,10 @@ Build the package file, a file like `nano3d-1.0.0-rh7_13-any.yak` would be gener
 
 ```bash
 # Inside /c/Users/m3/source/repos/Nano3D/pkg/dist
-"C:\Program Files\Rhino 7\System\Yak.exe" build
+"C:\Program Files\Rhino 7\System\Yak.exe" build --platform win
 ```
+
+`--platform` can be either `win` or `mac`. If you remove `--platform`, it would be `any`.
 
 # How to publish pkg
 
