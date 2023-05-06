@@ -21,6 +21,9 @@ namespace Nano3D
             RhinoApp.WriteLine("The {0} command received the document.", EnglishName);
 
             // TODO: complete command.
+
+            RhinoApp.WriteLine("The {0} command is not implemented yet.", EnglishName);
+
             return Result.Success;
         }
     }
