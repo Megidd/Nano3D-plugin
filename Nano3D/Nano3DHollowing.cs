@@ -109,23 +109,57 @@ namespace Nano3D
                         if (Utilities.debugMode)
                             MeshHelper.SaveAsStl(meshOut, "mesh-hollowed.stl");
 
-                        // Create a new object attributes with the desired name
-                        ObjectAttributes attributes = new ObjectAttributes();
-                        attributes.Name = "Hollowed: " + obj.Attributes.Name;
+                        // Run the CheckValidity method on the mesh.
+                        MeshCheckParameters parameters = new MeshCheckParameters();
 
-                        // Add the mesh to the document with the specified attributes
-                        doc.Objects.AddMesh(meshOut, attributes);
+                        // Enable all the checks:
+                        parameters.CheckForBadNormals = true;
+                        parameters.CheckForDegenerateFaces = true;
+                        parameters.CheckForDisjointMeshes = true;
+                        parameters.CheckForDuplicateFaces = true;
+                        parameters.CheckForExtremelyShortEdges = true;
+                        parameters.CheckForInvalidNgons = true;
+                        parameters.CheckForNakedEdges = true;
+                        parameters.CheckForNonManifoldEdges = true;
+                        parameters.CheckForRandomFaceNormals = true;
+                        parameters.CheckForSelfIntersection = true;
+                        parameters.CheckForUnusedVertices = true;
 
-                        // Redraw the viewports to update the display
-                        doc.Views.Redraw();
+                        // Create TextLog object
+                        Rhino.FileIO.TextLog log = new Rhino.FileIO.TextLog(Utilities.logfileMeshChecksHollowing);
 
-                        if (doc.Objects.Delete(obj.Id, true))
+                        bool isValid = meshOut.Check(log, ref parameters);
+
+                        RhinoApp.WriteLine("Is output mesh valid? {0}", isValid);
+
+                        // If the mesh is not valid, you can handle the error.
+                        if (!isValid)
                         {
-                            // Good.
+                            // Handle the error here.
+                            RhinoApp.WriteLine("Total cound of disjoint meshes: {0}", parameters.DisjointMeshCount);
                         }
                         else
                         {
-                            RhinoApp.WriteLine("The {0} command couldn't delete the original object.", EnglishName);
+                            // If the mesh is valid, add it to the document.
+
+                            // Create a new object attributes with the desired name
+                            ObjectAttributes attributes = new ObjectAttributes();
+                            attributes.Name = "Hollowed: " + obj.Attributes.Name;
+
+                            // Add the mesh to the document with the specified attributes
+                            doc.Objects.AddMesh(meshOut, attributes);
+
+                            // Redraw the viewports to update the display
+                            doc.Views.Redraw();
+
+                            if (doc.Objects.Delete(obj.Id, true))
+                            {
+                                // Good.
+                            }
+                            else
+                            {
+                                RhinoApp.WriteLine("The {0} command couldn't delete the original object.", EnglishName);
+                            }
                         }
 
                         RhinoApp.WriteLine("The {0} command finished.", EnglishName);

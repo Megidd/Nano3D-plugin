@@ -16,6 +16,7 @@ namespace Nano3D
         public const bool debugMode = true;
 
         public const string logfile = "Nano3D-log.txt";
+        public const string logfileMeshChecksHollowing = "Nano3D-log--mesh-checks--hollowing.txt";
 
         public static void WriteToLogFile(string text)
         {
