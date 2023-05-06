@@ -109,6 +109,8 @@ namespace Nano3D
                         if (Utilities.debugMode)
                             MeshHelper.SaveAsStl(meshOut, "mesh-hollowed.stl");
 
+                        MeshHelper.PrintFaceVertices(meshOut, 9203); // Index of the face to print
+
                         // Run the CheckValidity method on the mesh.
                         MeshCheckParameters parameters = new MeshCheckParameters();
 
@@ -135,8 +137,6 @@ namespace Nano3D
                         bool hasInvalidVertexIndices = MeshHelper.HasInvalidVertexIndices(meshOut);
 
                         RhinoApp.WriteLine("Does output mesh have invalid vertex indices? {0}", hasInvalidVertexIndices);
-
-                        MeshHelper.PrintFaceVertices(meshOut, 9203); // Index of the face to print
 
                         // If the mesh is not valid, you can handle the error.
                         if (!isValid || hasInvalidVertexIndices)

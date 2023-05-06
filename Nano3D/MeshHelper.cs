@@ -265,6 +265,10 @@ namespace Nano3D
             }
 
             MeshFace face = mesh.Faces[faceIndex];
+            RhinoApp.WriteLine("Indices of face {0}:", faceIndex);
+            RhinoApp.WriteLine("Index A: {0}", face.A);
+            RhinoApp.WriteLine("Index B: {0}", face.B);
+            RhinoApp.WriteLine("Index C: {0}", face.C);
             RhinoApp.WriteLine("Vertices of face {0}:", faceIndex);
             RhinoApp.WriteLine("Vertex A: {0}", mesh.Vertices[face.A]);
             RhinoApp.WriteLine("Vertex B: {0}", mesh.Vertices[face.B]);
