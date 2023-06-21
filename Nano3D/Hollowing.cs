@@ -15,17 +15,17 @@ using Command = Rhino.Commands.Command;
 
 namespace Nano3D
 {
-    public class Nano3DHollowing : Command
+    public class Hollowing : Command
     {
-        public Nano3DHollowing()
+        public Hollowing()
         {
             Instance = this;
         }
 
         ///<summary>The only instance of the MyCommand command.</summary>
-        public static Nano3DHollowing Instance { get; private set; }
+        public static Hollowing Instance { get; private set; }
 
-        public override string EnglishName => "Nano3DHollowing";
+        public override string EnglishName => "Hollowing";
 
         private static readonly HttpClient client = new HttpClient();
 
@@ -33,7 +33,7 @@ namespace Nano3D
         {
             RhinoApp.WriteLine("The {0} command received the document.", EnglishName);
 
-            RhinoObject obj = MeshHelper.GetSingle();
+            RhinoObject obj = HelperMesh.GetSingle();
             if (null == obj || obj.ObjectType != ObjectType.Mesh)
             {
                 RhinoApp.WriteLine("Mesh is not valid.");
@@ -56,20 +56,20 @@ namespace Nano3D
             // Extract vertex buffer and index buffer.
             float[] vertexBuffer;
             int[] indexBuffer;
-            MeshHelper.GetBuffers(mesh, out vertexBuffer, out indexBuffer);
+            HelperMesh.GetBuffers(mesh, out vertexBuffer, out indexBuffer);
 
-            if (Utilities.debugMode)
-                MeshHelper.SaveBuffersAsStl(vertexBuffer, indexBuffer, "mesh.stl");
+            if (HelperUtil.debugMode)
+                HelperMesh.SaveBuffersAsStl(vertexBuffer, indexBuffer, "mesh.stl");
 
-            byte[] data = MeshHelper.ProcessBuffers(indexBuffer, vertexBuffer);
+            byte[] data = HelperMesh.ProcessBuffers(indexBuffer, vertexBuffer);
 
             // Prepare HTTP form text fields.
             Dictionary<string, string> fields = new Dictionary<string, string>();
 
-            float thickness = Utilities.GetFloatFromUser(1.8, 0.0, 100.0, "Enter wall thickness for hollowing.");
+            float thickness = HelperUtil.GetFloatFromUser(1.8, 0.0, 100.0, "Enter wall thickness for hollowing.");
             fields.Add("thickness", thickness.ToString());
 
-            uint precision = Utilities.GetUint32FromUser("Enter precision: VeryLow=1, Low=2, Medium=3, High=4, VeryHigh=5", 3, 1, 5);
+            uint precision = HelperUtil.GetUint32FromUser("Enter precision: VeryLow=1, Low=2, Medium=3, High=4, VeryHigh=5", 3, 1, 5);
             switch (precision)
             {
                 case 1: case 2: case 3: case 4: case 5:
@@ -80,7 +80,7 @@ namespace Nano3D
             }
             fields.Add("precision", precision.ToString());
 
-            bool infill = Utilities.GetYesNoFromUser("Do you want infill for hollowed mesh?");
+            bool infill = HelperUtil.GetYesNoFromUser("Do you want infill for hollowed mesh?");
             fields.Add("infill", infill ? "true" : "false");
 
             // Prepare HTTP form files.
@@ -88,7 +88,7 @@ namespace Nano3D
             files.Add("input", data);
 
             // Send HTTP request asynchronously.
-            Task<byte[]> task = HttpHelper.SendPostRequest(HttpHelper.UrlHollowing, fields, files);
+            Task<byte[]> task = HelperHttp.SendPostRequest(HelperHttp.UrlHollowing, fields, files);
 
             task.ContinueWith(responseTask =>
             {
@@ -102,17 +102,17 @@ namespace Nano3D
 
                         int[] indexBufferOut;
                         float[] vertexBufferOut;
-                        MeshHelper.UnpackBuffers(response, out indexBufferOut, out vertexBufferOut);
+                        HelperMesh.UnpackBuffers(response, out indexBufferOut, out vertexBufferOut);
 
                         // To avoid warnings:
                         // https://discourse.mcneel.com/t/warning-new-mesh-is-not-valid-on-mesh-m-f-vi-has-invalid-vertex-indices/159312/16?u=megidd_git
-                        int[] newIndexBufferOut = MeshHelper.RemoveZeroAreaTriangles(indexBufferOut, vertexBufferOut);
+                        int[] newIndexBufferOut = HelperMesh.RemoveZeroAreaTriangles(indexBufferOut, vertexBufferOut);
 
                         // Use the returned index and vertex buffers to create a new mesh.
-                        Mesh meshOut = MeshHelper.CreateFromBuffers(vertexBufferOut, newIndexBufferOut);
+                        Mesh meshOut = HelperMesh.CreateFromBuffers(vertexBufferOut, newIndexBufferOut);
 
-                        if (Utilities.debugMode)
-                            MeshHelper.SaveAsStl(meshOut, "mesh-hollowed.stl");
+                        if (HelperUtil.debugMode)
+                            HelperMesh.SaveAsStl(meshOut, "mesh-hollowed.stl");
 
                         /// To debug warnings about a specific face:
                         //MeshHelper.PrintFaceVertices(meshOut, 9203); // Index of the face to print
@@ -134,13 +134,13 @@ namespace Nano3D
                         parameters.CheckForUnusedVertices = true;
 
                         // Create TextLog object
-                        Rhino.FileIO.TextLog log = new Rhino.FileIO.TextLog(Utilities.logfileMeshChecksHollowing);
+                        Rhino.FileIO.TextLog log = new Rhino.FileIO.TextLog(HelperUtil.logfileMeshChecksHollowing);
 
                         bool isValid = meshOut.Check(log, ref parameters);
 
                         RhinoApp.WriteLine("Is output mesh valid? {0}", isValid);
 
-                        bool hasInvalidVertexIndices = MeshHelper.HasInvalidVertexIndices(meshOut);
+                        bool hasInvalidVertexIndices = HelperMesh.HasInvalidVertexIndices(meshOut);
 
                         RhinoApp.WriteLine("Does output mesh have invalid vertex indices? {0}", hasInvalidVertexIndices);
 
@@ -188,7 +188,7 @@ namespace Nano3D
                 }
             }, TaskScheduler.FromCurrentSynchronizationContext());
 
-            Utilities.PrintWaitMessage(EnglishName);
+            HelperUtil.PrintWaitMessage(EnglishName);
             return Result.Success;
         }
     }

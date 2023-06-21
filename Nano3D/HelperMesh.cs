@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace Nano3D
 {
-    internal class MeshHelper
+    internal class HelperMesh
     {
         /// <summary>
         /// A simple method to prompt the user to select a single mesh.

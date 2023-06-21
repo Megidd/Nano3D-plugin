@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Nano3D
 {
-    internal class Utilities
+    internal class HelperUtil
     {
         public const bool debugMode = true;
 

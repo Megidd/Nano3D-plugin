@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Nano3D
 {
-    internal class HttpHelper
+    internal class HelperHttp
     {
         public const string ip = "127.0.0.1";
         public static string port = "8080"; // A free port will be found on plugin load.

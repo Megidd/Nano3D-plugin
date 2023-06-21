@@ -36,9 +36,9 @@ namespace Nano3D
         protected override LoadReturnCode OnLoad(ref string errorMessage)
         {
             // Pick a free port and run service listening on it.
-            HttpHelper.port = HttpHelper.FindAvailablePort().ToString();
-            service = System.Diagnostics.Process.Start("nano3d-service.exe", HttpHelper.port);
-            RhinoApp.WriteLine("Nano3D service is started on port {0}.", HttpHelper.port);
+            HelperHttp.port = HelperHttp.FindAvailablePort().ToString();
+            service = System.Diagnostics.Process.Start("nano3d-service.exe", HelperHttp.port);
+            RhinoApp.WriteLine("Nano3D service is started on port {0}.", HelperHttp.port);
 
             restageRUI();
 
@@ -63,7 +63,7 @@ namespace Nano3D
 
                 // Rhino3D would be closed, so the prompt cannot be read.
                 // Write the error to the log file to be able to read it after Rhino3D is closed.
-                Utilities.WriteToLogFile("Exception while closing the plugin: "+ex.Message);
+                HelperUtil.WriteToLogFile("Exception while closing the plugin: "+ex.Message);
             }
         }
 
