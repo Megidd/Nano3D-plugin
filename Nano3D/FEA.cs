@@ -4,17 +4,17 @@ using Rhino.Commands;
 
 namespace Nano3D
 {
-    public class FiniteElementAnalysis : Command
+    public class FEA : Command
     {
-        public FiniteElementAnalysis()
+        public FEA()
         {
             Instance = this;
         }
 
         ///<summary>The only instance of the MyCommand command.</summary>
-        public static FiniteElementAnalysis Instance { get; private set; }
+        public static FEA Instance { get; private set; }
 
-        public override string EnglishName => "FiniteElementAnalysis";
+        public override string EnglishName => "Finite Element Analysis";
 
         protected override Result RunCommand(RhinoDoc doc, RunMode mode)
         {
