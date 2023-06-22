@@ -25,7 +25,7 @@ namespace Nano3D
         {
             RhinoApp.WriteLine("The {0} command received the document.", EnglishName);
 
-            RhinoObject obj = HelperMesh.GetSingle("Select a single mesh whose unit of measurement is mm");
+            RhinoObject obj = HelperMesh.GetSingle("Select a single mesh whose unit of measurement is millimeter [mm]");
             if (null == obj || obj.ObjectType != ObjectType.Mesh)
             {
                 RhinoApp.WriteLine("Mesh is not valid.");
@@ -74,7 +74,7 @@ namespace Nano3D
             files.Add("input", data);
 
             // Send HTTP request asynchronously.
-            Task<byte[]> task = HelperHttp.SendPostRequest(HelperHttp.UrlHollowing, fields, files);
+            Task<byte[]> task = HelperHttp.SendPostRequest(HelperHttp.UrlFea, fields, files);
 
             task.ContinueWith(responseTask =>
             {

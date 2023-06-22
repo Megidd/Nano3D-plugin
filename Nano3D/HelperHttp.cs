@@ -21,6 +21,9 @@ namespace Nano3D
         public const string routeHollowing = route+ "/hollowing";
         public static string UrlHollowing = address + routeHollowing;
 
+        public const string routeFea = route + "/fea";
+        public static string UrlFea = address + routeFea;
+
         // To find a free port, first these options are checked.
         private static readonly uint[] portPool = { 8080, 7123, 5976, 4422 };
 
