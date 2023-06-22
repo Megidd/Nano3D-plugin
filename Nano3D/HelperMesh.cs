@@ -18,10 +18,10 @@ namespace Nano3D
         /// A simple method to prompt the user to select a single mesh.
         /// </summary>
         /// <returns>Selected object that should be of type mesh.</returns>
-        public static RhinoObject GetSingle()
+        public static RhinoObject GetSingle(String message = "Select a single mesh")
         {
             GetObject go = new GetObject();
-            go.SetCommandPrompt("Select a single mesh");
+            go.SetCommandPrompt(message);
             go.GeometryFilter = ObjectType.Mesh;
             go.Get();
             if (go.CommandResult() != Result.Success) return null;

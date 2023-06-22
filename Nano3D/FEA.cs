@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Threading.Tasks;
 using Rhino;
 using Rhino.Commands;
@@ -24,7 +25,7 @@ namespace Nano3D
         {
             RhinoApp.WriteLine("The {0} command received the document.", EnglishName);
 
-            RhinoObject obj = HelperMesh.GetSingle();
+            RhinoObject obj = HelperMesh.GetSingle("Select a single mesh whose unit of measurement is mm");
             if (null == obj || obj.ObjectType != ObjectType.Mesh)
             {
                 RhinoApp.WriteLine("Mesh is not valid.");
@@ -57,26 +58,16 @@ namespace Nano3D
             // Prepare HTTP form text fields.
             Dictionary<string, string> fields = new Dictionary<string, string>();
 
-            float thickness = HelperUtil.GetFloatFromUser(1.8, 0.0, 100.0, "Enter wall thickness for hollowing.");
-            fields.Add("thickness", thickness.ToString());
+            float massDensity = HelperUtil.GetFloatFromUser(1250, 0, 1e8, "Enter mass density [Kg/m^3]");
+            // Convert units to mm,N,sec like this: https://engineering.stackexchange.com/q/54454/15178
+            massDensity = massDensity * 1.0e-12f;
+            fields.Add("massDensity", massDensity.ToString());
 
-            uint precision = HelperUtil.GetUint32FromUser("Enter precision: VeryLow=1, Low=2, Medium=3, High=4, VeryHigh=5", 3, 1, 5);
-            switch (precision)
-            {
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                case 5:
-                    break;
-                default:
-                    RhinoApp.WriteLine("Precision must be 1, 2, 3, 4, or 5 i.e. VeryLow=1, Low=2, Medium=3, High=4, VeryHigh=5");
-                    return Result.Failure;
-            }
-            fields.Add("precision", precision.ToString());
+            float youngModulus = HelperUtil.GetFloatFromUser(900, 0, 1e8, "Enter Young modulus [N/mm^2 or MPa]");
+            fields.Add("infill", youngModulus.ToString());
 
-            bool infill = HelperUtil.GetYesNoFromUser("Do you want infill for hollowed mesh?");
-            fields.Add("infill", infill ? "true" : "false");
+            float poissonRatio = HelperUtil.GetFloatFromUser(0.3, 0, 1, "Enter Poisson ratio [unitless]");
+            fields.Add("poissonRatio", poissonRatio.ToString());
 
             // Prepare HTTP form files.
             Dictionary<string, byte[]> files = new Dictionary<string, byte[]>();
