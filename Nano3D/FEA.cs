@@ -69,6 +69,16 @@ namespace Nano3D
             float poissonRatio = HelperUtil.GetFloatFromUser(0.3, 0, 1, "Enter Poisson ratio [unitless]");
             fields.Add("poissonRatio", poissonRatio.ToString());
 
+            Point3d point = HelperMesh.GetPointOnMesh(mesh, "Select load point on mesh");
+            if (point == Point3d.Unset)
+            {
+                RhinoApp.WriteLine("user canceled or selected a point outside the mesh: {0}.", point);
+            }
+            else
+            {
+                RhinoApp.WriteLine("selected point: {0}.", point);
+            }
+
             // Prepare HTTP form files.
             Dictionary<string, byte[]> files = new Dictionary<string, byte[]>();
             files.Add("input", data);

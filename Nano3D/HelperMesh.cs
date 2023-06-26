@@ -1,6 +1,7 @@
 ﻿using Rhino.Commands;
 using Rhino.DocObjects;
 using Rhino.Geometry;
+using Rhino.Input;
 using Rhino.Input.Custom;
 using Rhino;
 using System;
@@ -29,6 +30,18 @@ namespace Nano3D
             RhinoObject obj = go.Object(0).Object();
             if (obj.ObjectType != ObjectType.Mesh) return null;
             return obj;
+        }
+
+        public static Point3d GetPointOnMesh(Mesh mesh, String message = "Select a point on the mesh")
+        {
+            GetPoint gp = new GetPoint();
+            gp.SetCommandPrompt(message);
+            gp.Constrain(mesh, false);
+            gp.Get();
+            if (gp.CommandResult() != Result.Success) return Point3d.Unset;
+            Point3d point = gp.Point();
+            if (!mesh.IsPointInside(point, RhinoMath.ZeroTolerance, true)) return Point3d.Unset;
+            return point;
         }
 
         public static void GetBuffers(Mesh mesh, out float[] vertexBuffer, out int[] indexBuffer)
